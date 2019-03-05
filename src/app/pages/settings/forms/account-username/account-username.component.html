@@ -1,0 +1,80 @@
+<div class="wrapper content-wrapper">
+  <ons-toolbar>
+    <div class="left">
+      <ons-toolbar-button>
+        <ons-back-button></ons-back-button>
+      </ons-toolbar-button>
+    </div>
+    <div class="center">
+      Settings
+    </div>
+    <div class="right hidden">
+      <ons-toolbar-button>
+        <i class="far fa-bell"></i>
+      </ons-toolbar-button>
+    </div>
+  </ons-toolbar>
+
+  <ons-page class="content settings-wrap">
+    <div class="settings-main-content">
+      <!-- Profile -->
+      <div class="settings-main-content__wrap">
+        <div class="list-title">Update Account Username</div>
+        <div class="list-item__subtitle">
+          Account Username must contain numbers, letters and underscore only.
+          <hr>
+        </div>
+
+        <ng-container *ngIf="form.security.hasError('formError')">
+          <span *ngFor="let error of form.security.getError('formError')">
+            {{ error }}
+          </span>
+        </ng-container>
+
+        <form [formGroup]="form.security" (ngSubmit)="onSubmit()" id="account-username-form" novalidate>
+          <ons-row class="p-lr-15">
+            <ons-col width="100%" class="input-wrap">
+              <i class="fas fa-lock"></i>
+              <input formControlName="currentPassword" type="password" class="text-input" placeholder="Current Password"/>
+            </ons-col>
+            <div *ngIf="form.security.get('currentPassword').hasError('formError')" class="invalid-user-feedback">
+              <span *ngFor="let error of form.security.get('currentPassword').getError('formError')">
+                {{ error }}
+              </span>
+            </div>
+          </ons-row>
+
+          <ons-row class="p-lr-15">
+            <ons-col width="100%" class="input-wrap">
+              <i class="fas fa-lock"></i>
+              <input formControlName="newUsername" type="text" class="text-input" placeholder="New Username"/>
+            </ons-col>
+            <div *ngIf="form.security.get('newUsername').hasError('formError')" class="invalid-user-feedback">
+              <span *ngFor="let error of form.security.get('newUsername').getError('formError')">
+                {{ error }}
+              </span>
+            </div>
+
+            <ons-col width="100%"class="input-wrap m-t-10">
+              <i class="fas fa-lock"></i>
+              <input formControlName="confirmUsername" type="text" class="text-input" placeholder="Confirm Username"/>
+            </ons-col>
+            <div *ngIf="form.security.get('confirmUsername').hasError('formError')" class="invalid-user-feedback">
+              <span *ngFor="let error of form.security.get('confirmUsername').getError('formError')">
+                {{ error }}
+              </span>
+            </div>
+          </ons-row>
+
+          <ons-row class="p-lr-15">
+            <ons-col>
+              <div class="right filter-buttons">
+                <button type="submit" class="btn-custom gradient-green white button left" [ladda]="form.isSubmitting">Update</button>
+              </div>
+            </ons-col>
+          </ons-row>
+        </form>
+      </div>
+    </div>
+  </ons-page>
+</div>

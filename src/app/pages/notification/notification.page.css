@@ -1,0 +1,48 @@
+/* Header */
+.notification-wrap {
+  margin-top: 60px;
+}
+/* End header */
+
+/* Body */
+.notification-wrap ul {
+  background-color: transparent;
+}
+.notif-list {
+  background-image: none !important;
+}
+.notif-list .list-item {
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 0 10px;
+  min-height: 72px;
+}
+.notif-bold-italic {
+  font-weight: 700;
+  font-style: italic;
+}
+.notif-date-time {
+  font-size: 12px;
+}
+.notif-icon {
+  font-size: 45px;
+}
+.list.notif-list {
+    margin: 5px 10px;
+}
+.notification-confirmed, .notification-approved, .notification-processed { 
+  border-left: 5px solid #529F7C; 
+}
+.notification-declined, .notification-voided { 
+  border-left: 5px solid #C1272D;  
+}
+.notification-requested, .notification-saved { 
+  border-left: 5px solid #FFB400;
+}
+.notification-product, .notification-acknowledged, .notification-linked { 
+  border-left: 5px solid #2c9dde;
+}
+.notification-list {
+    padding: 15px 0;
+    font-size: 14px;
+}

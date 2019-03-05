@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  spa:
+    container_name: ams-mobile
+    image: node:10.14.1-alpine
+    ports:
+      - '4200:80' # Open port 8000 on server
+    volumes:
+      - .:/app:rw
+    entrypoint:
+      - sh
+      - /app/config/dev-entrypoint.sh
+    environment:
+      - NODE_ENV=dev

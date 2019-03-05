@@ -1,0 +1,75 @@
+<ons-page>
+  <div class="profile__background" *ngIf="user$ | async as user">
+
+    <header class="profile_header gradient-red">
+      <ons-toolbar>
+        <div class="right">
+          <ons-toolbar-button>
+            <ons-toolbar-button (click)="backtoDashboard()">
+              <ons-icon icon="fa-times"></ons-icon>
+            </ons-toolbar-button>
+          </ons-toolbar-button>
+        </div>
+      </ons-toolbar>
+
+      <div class = "profile_header_customer">
+        <img *ngIf="user.verifiedAt" class="profile_header_verified" src="../assets/images/verified-icon.svg" />
+        <img *ngIf="user.verifiedAt === null" class="profile_header_verified" src="../assets/images/unverified-icon.svg" />
+        <img class="profile_header_avatar" src="../assets/images/avatar-man1.svg" />
+      </div>
+
+      <h1 class="white">{{ user.displayName }}</h1>
+      <span>{{ user.username }}</span>
+    </header>
+
+    <!-- Activation Alert -->
+    <ng-container>
+      <div class="p-lr-15 m-t-15" *ngIf="!user.isActivated">
+        <div class="activate-now-wrapper font-sm">
+          <ons-row>
+            <ons-col width="10%" align="center">
+                <i class="fas fa-exclamation-circle"></i>
+            </ons-col>
+            <ons-col width="55%" align="center">
+              Set up your username and password now to activate your account.
+            </ons-col>
+            <ons-col width="35%" class="right" align="center">
+              <ons-button (click)="gotoAccountActivation()" class="gradient-green button font-sm">Activate Now</ons-button>
+            </ons-col>
+          </ons-row>
+        </div>
+      </div>
+    </ng-container>
+    <!-- End Activation Alert -->
+
+    <!-- Redirect to AMS -->
+    <div class="p-lr-15 m-t-15">
+      <div class="desktop-site-wrapper font-sm">
+        <ons-row>
+          <ons-col width="65%" align="center">
+            Some features are temporarily unavailable in AMS Mobile.
+          </ons-col>
+          <ons-col width="35%" class="right" align="center">
+            <a href="{{ amsSigninUrl }}" class="gradient-green button font-sm">Go to AMS Web</a>
+          </ons-col>
+        </ons-row>
+      </div>
+    </div>
+    <!-- End Redirect to AMS -->
+
+    <div class="profile_body_main">
+      <ng-template tabHost></ng-template>
+    </div>
+
+    <div class="bottom-bar">
+      <ons-button (click)="gotoSettings()" modifier="light">
+        <label><ons-icon icon="fa-cog"></ons-icon> Settings</label>
+      </ons-button>
+      <ons-button (click)="logout()" modifier="light">
+        <label><ons-icon icon="fa-power-off"></ons-icon> Sign Out</label>
+      </ons-button>
+      <span class="m-b-10 m-t-10 black center">COPYRIGHT © 2014-2019 ASIANCONNECT. ALL RIGHTS RESERVED.</span>
+    </div>
+
+  </div>
+</ons-page>

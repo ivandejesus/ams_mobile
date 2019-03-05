@@ -1,0 +1,223 @@
+<form *ngIf="form" [formGroup]="form.transaction" (ngSubmit)="onSubmit()" id="bitcoin-deposit-form" novalidate>
+  <div class="dashboard_wrapper">
+    <div class="content transaction-content">
+      <ons-list-item expandable>
+        <div class="card-wrapper" (click)="onExpandableContentClicked()">
+          <ons-row>
+            <ons-col class="col" align="left" width="50%">
+              <img src="../assets/images/gateway-bitcoin-logo.svg">
+            </ons-col>
+            <ons-col *ngIf="activeBitcoinTransaction" class="col right" align="top">
+              <div class="col-profile requested-cls">
+              <ul>
+                <li><p *ngIf="activeBitcoinTransaction.isPending" class="orange">Pending</p></li>
+                <li><p *ngIf="activeBitcoinTransaction.isRequested" class="orange">Requested</p></li>
+                <li><p *ngIf="activeBitcoinTransaction.isConfirmed" class="green">Confirmed</p></li>
+                <li><p *ngIf="activeBitcoinTransaction.isDeclined" class="orange">Declined</p></li>
+                <li><small *ngIf="activeBitcoinTransaction.isPending || activeBitcoinTransaction.isRequested || activeBitcoinTransaction.isConfirmed">Transaction Status</small></li>
+              </ul>
+              </div>
+            </ons-col>
+          </ons-row>
+          <ons-row class="info-content info-content-sm">
+            <ons-col class="col" align="top">
+              <div class="col-content left">
+                <ons-row>
+                  <ons-col width="10%"><i class="fas fa-check"></i></ons-col>
+                  <ons-col width="90%"><strong>Processing time:</strong> 3 confirmations</ons-col>
+                </ons-row>
+                <ons-row>
+                  <ons-col width="10%"><i class="fas fa-check"></i></ons-col>
+                  <ons-col width="90%"><strong>Fee:</strong> Free</ons-col>
+                </ons-row>
+              </div>
+            </ons-col>
+            <ons-col *ngIf="bitcoinExchangeRate" class="col" align="top">
+              <div class="col-content left">
+                <ons-row>
+                  <ons-col width="10%"><i class="fas fa-check"></i></ons-col>
+                  <ons-col width="90%"><strong>Min. deposit amount:</strong> {{ bitcoinExchangeRate.config.minimumAllowedDeposit }} BTC</ons-col>
+                </ons-row>
+                <ons-row>
+                  <ons-col width="10%"><i class="fas fa-check"></i></ons-col>
+                  <ons-col width="90%"><strong>Max. deposit amount:</strong> {{ bitcoinExchangeRate.config.maximumAllowedDeposit }} BTC</ons-col>
+                </ons-row>
+              </div>
+            </ons-col>
+          </ons-row>
+        </div>
+        <div class="expandable-content">
+          <div class="gateway-content gradient-orange">
+            <ons-row class="gateway-wrap">
+              <ons-col width="65%" align="center" class="transaction-label">
+                <p>Total EUR to be deposited:</p>
+                <p>Fee:</p>
+                <span class="hr-b"></span>
+                <p class="font-md">TOTAL BTC TO BE SENT:</p>
+              </ons-col>
+              <ons-col width="35%" align="bottom" class="transaction-sum">
+                <p>{{ form.totalAmount }} <span *ngIf="user$ | async as user"> {{ user.currency?.code }}</span></p>
+                <p>{{ form.fee }} <span *ngIf="user$ | async as user"> {{ user.currency?.code }}</span></p>
+                <span class="hr-b"></span>
+                <p class="font-md">{{ form.totalBtcAmount }} <span *ngIf="user$ | async as user"> BTC</span></p>
+              </ons-col>
+            </ons-row>
+          </div>
+          <div *ngIf="!activeBitcoinTransaction" class="gateway-form">
+            <ons-row class="gateway-wrap">
+              <ons-col width="100%" class="right">
+                <span id="exchange-rate" class="gradient-orange white ex-rate" *ngIf="bitcoinExchangeRate">Current rate: 1 BTC = {{ bitcoinExchangeRate.adjustedRate }}<span *ngIf="user$ | async as user"> {{ user.currency?.code }}</span></span>
+              </ons-col>
+              <ons-row>
+                <ons-col width="100%" align="top">
+                  <ul *ngIf="form.transaction.hasError('formError')" class="invalid-user-feedback">
+                    <li *ngFor="let error of form.transaction.getError('formError')">
+                      {{ error }}
+                    </li>
+                  </ul>
+                </ons-col>
+              </ons-row>
+              
+              <ng-container formArrayName="subtransactions" *ngFor="let subtransaction of form.transaction.get('subtransactions')['controls']; let j=index">
+                <ng-container [formGroupName]="j">
+                  <div class="product-amount-wrap">
+                    <ons-col width="100%" align="top">
+                      <select formControlName="product" #product (ngModelChange)="onProductChange(product.value, oldvalue, j);oldvalue=product.value">
+                          <option value="" disabled selected>Please Select</option>
+                          <ng-container *ngFor="let customerProduct of customerProducts">
+                            <option [disabled]="isInChosenProducts(customerProduct)" [value]="customerProduct.id">
+                              {{ customerProduct.displayName }}
+                            </option>
+                          </ng-container>
+                      </select>
+                      <div *ngIf="form.transaction.get('subtransactions')['controls'][j].get('product').hasError('formError')" class="invalid-user-feedback">
+                        <span *ngFor="let error of form.transaction.get('subtransactions')['controls'][j].get('product').getError('formError')">
+                          {{ error }}
+                        </span>
+                    </div>
+                    </ons-col>
+                    <ons-col width="100%" align="top">
+                      <label class="currency-label">BTC</label>
+                      <input decimal (ngModelChange)="onBtcAmountInputChanges($event)" formControlName="btcAmount" type="number" class="text-input input-eur" placeholder="Enter btc amount" value="">
+                      <ul *ngIf="form.transaction.get('subtransactions')['controls'][j].get('btcAmount').hasError('formError')" class="invalid-user-feedback">
+                        <li *ngFor="let error of form.transaction.get('subtransactions')['controls'][j].get('btcAmount').getError('formError')">
+                          {{ error }}
+                        </li>
+                      </ul>
+                    </ons-col>
+                    <ons-col width="100%" align="top">
+                      <label class="currency-label"><span *ngIf="user$ | async as user"> {{ user.currency?.code }}</span></label>
+                      <input decimal (ngModelChange)="onAmountInputChanges($event)" formControlName="amount" type="number" class="text-input input-eur" placeholder="Enter amount" value="">
+                      <ul *ngIf="form.transaction.get('subtransactions')['controls'][j].get('amount').hasError('formError')" class="invalid-user-feedback">
+                        <li *ngFor="let error of form.transaction.get('subtransactions')['controls'][j].get('amount').getError('formError')">
+                          {{ error }}
+                        </li>
+                      </ul>
+                    </ons-col>
+                    <ons-col align="top" *ngIf="form.canRemoveSubtransaction()" class="cancel-space">
+                        <ons-button (click)="removeSubtransaction(j)" class="btn-red-outline w-100 center"><i class="fas fa-times"></i> </ons-button>
+                      </ons-col>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <ons-col width="48%" align="top">
+                <ons-button (click)="form.addSubtransaction()" class="btn-custom button--quiet gray-d button m-r-10"><i class="fas fa-plus"></i> Add product</ons-button>
+              </ons-col>
+              <ons-col width="4%"></ons-col>
+              <ons-col align="top" class="right btn-request">
+                <ons-button [ladda]="form.isSubmitting" (click)="onSubmit()" type="submit" class="gradient-green left">Request</ons-button>
+              </ons-col>
+            </ons-row>
+          </div>
+
+          <!-- REQUESTED, DECLINED  DISPLAY -->
+          <div *ngIf="activeBitcoinTransaction && isTransactionDeclinedOrRequested()" class="gateway-form">
+            <ons-row class="gateway-wrap requested-gateway">
+              <ons-col width="100%" align="top">
+                <div class="center m10">
+                  <ng-container formArrayName="subtransactions" *ngFor="let subtransaction of form.transaction.get('subtransactions')['controls']; let j=index">
+                      <ng-container [formGroupName]="j">
+                        <div class="product-details">
+                          <h2>{{ subtransaction.value.product }}</h2>
+                          <h3><strong>Amount:</strong> {{ subtransaction.value.btcAmount }} = {{ subtransaction.value.amount }} <span *ngIf="user$ | async as user"> {{ user.currency?.code }}</span></h3>
+                        </div>
+                      </ng-container>
+                  </ng-container>
+                </div>
+              </ons-col>
+              <ons-col width="15%" align="center">
+                <div class="center">
+                  <i class="fas fa-lock"></i>
+                </div>
+              </ons-col>
+              <ons-col width="85%" align="top">
+                <div class="left">
+                  <h1>Rate Used</h1>
+                  <label class="btc-rate">1 BTC = {{ activeBitcoinTransaction.adjustedRate }} <span *ngIf="user$ | async as user"> {{ user.currency?.code }}</span></label>
+                  <p class="rate-note">The rate above is locked for <strong class="orange"><span class="rate-timer"></span></strong></p>
+                </div>
+              </ons-col>
+              <ons-col width="15%" align="center">
+                <div class="center">
+                  <i class="fab fa-bitcoin"></i>
+                </div>
+              </ons-col>
+              <ons-col width="85%" align="top">
+                <div class="left recipent-btc-add">
+                  <h1>Recipient BTC Address</h1>
+                  <label id="btcAddressLabel" data-clipboard-target="#btcAddressInput" class="copy-label yellow-bg">Copy</label>
+                  <input id="btcAddressInput" type="text" class="text-input input-copy" placeholder="" value="{{ activeBitcoinTransaction.receivingAddress }}">
+                </div>
+              </ons-col>
+              <ons-col width="15%" align="center">
+                <div class="center">
+                  <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+              </ons-col>
+              <ons-col width="85%" align="top">
+                <div class="left">
+                  <h1>Total BTC to be sent</h1>
+                  <h2 class="bitcoin-status-rate"><strong>{{ form.totalBtcAmount }} BTC</strong></h2>
+                </div>
+              </ons-col>
+            </ons-row>
+          </div>
+
+          <!-- PENDING  DISPLAY -->
+          <div *ngIf="activeBitcoinTransaction && isTransactionConfirmedOrPending()" class="gateway-form">
+            <ons-row class="gateway-wrap pending-gateway">
+              <ons-col width="100%" align="top">
+                <div class="center m10">
+                  <h2>Thank you for sending the requested amount!</h2>
+                  <p>We are now waiting for your Bitcoin confirmation.</p>
+                </div>
+              </ons-col>
+              <ons-col width="20%" align="top">
+                <div class="center">
+                  <i class="fab fa-bitcoin"></i>
+                </div>
+              </ons-col>
+              <ons-col width="80%" align="top">
+                <div class="left">
+                  <h2>Your BTC Addresss</h2>
+                  <p>{{ activeBitcoinTransaction.receivingAddress }}</p>
+                </div>
+              </ons-col>
+              <ons-col width="20%" align="top">
+                <div class="center">
+                  <i class="fas fa-receipt"></i>
+                </div>
+              </ons-col>
+              <ons-col width="80%" align="top">
+                <div class="left">
+                  <h2>Status</h2>
+                  <h3 class="bitcoin-status"><strong>{{ activeBitcoinTransaction.confirmationCount }}/3 confirmation(s) received</strong></h3>
+                </div>
+              </ons-col>
+            </ons-row>
+          </div>
+        </div>
+      </ons-list-item>
+    </div>
+  </div>
+</form>

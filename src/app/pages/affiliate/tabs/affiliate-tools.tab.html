@@ -1,0 +1,16 @@
+<ons-page>
+  <div class="segment segment--material w-100" style="margin: 0 auto;">
+    <div class="segment__item segment--material__item">
+      <input type="radio" class="segment__input segment--material__input" name="segment-b" (click)="showArchiveTab()" checked>
+      <div class="segment__button segment--material__button">Archive</div>
+    </div>
+    <div class="segment__item segment--material__item">
+      <input type="radio" class="segment__input segment--material__input" name="segment-b" (click)="showGenerateTab()">
+      <div class="segment__button segment--material__button">Generate</div>
+    </div>
+  </div>
+
+  <div class="body_wrapper">
+    <ng-template tabHost></ng-template>
+  </div>
+</ons-page>

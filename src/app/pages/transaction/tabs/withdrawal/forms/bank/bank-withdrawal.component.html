@@ -1,0 +1,196 @@
+<form *ngIf="false else restricted" [formGroup]="form.transaction" (ngSubmit)="onSubmit()" id="bank-withdrawal-form" novalidate>
+  <div class=" content transaction-content">
+    <div class="transaction-wrapper">
+      <ons-list-item expandable>
+        <div class="card-wrapper">
+          <ons-row align="center">
+            <ons-col width="40%" class="col" align="left">
+              <img src="../assets/images/gateway-bankwire-logo.svg">
+            </ons-col>
+          </ons-row>
+          <ons-row class="info-content info-content-sm">
+            <ons-col class="col" align="top">
+              <div class="col-content left">
+                <ons-row>
+                  <ons-col width="5%"><i class="fas fa-check"></i></ons-col>
+                  <ons-col width="95%"><strong>Processing time:</strong> {{ customerPaymentOption.processingTimeWithdrawal }}</ons-col>
+                </ons-row>
+                <ons-row>
+                  <ons-col width="5%"><i class="fas fa-check"></i></ons-col>
+                  <ons-col width="95%"><strong>Fee:</strong> {{ customerPaymentOption.feeDisplayFor('withdrawal') }}</ons-col>
+                </ons-row>
+                <ons-row>
+                  <ons-col width="5%"><i class="fas fa-check"></i></ons-col>
+                  <ons-col width="95%"><strong>Min. withdrawal amount:</strong> {{ customerPaymentOption.minimumWithdrawal }}</ons-col>
+                </ons-row>
+                <ons-row>
+                  <ons-col width="5%"><i class="fas fa-check"></i></ons-col>
+                  <ons-col width="95%"><strong>Max. withdrawal amount:</strong> {{ customerPaymentOption.maximumWithdrawal }}</ons-col>
+                </ons-row>
+              </div>
+            </ons-col>
+          </ons-row>
+        </div>
+        <div class="expandable-content">
+          <div class="gateway-content gradient-orange-d">
+            <ons-row class="gateway-wrap">
+              <ons-col width="65%" align="center" class="transaction-label">
+                <p>Amount to be deducted:</p>
+                <p>Fee:</p>
+                <span class="hr-b"></span>
+                <p class="font-md">TOTAL AMOUNT:</p>
+              </ons-col>
+              <ons-col width="35%" align="center" class="transaction-sum">
+                <p>{{ form.totalAmount }} <span *ngIf="user$ | async as user"> {{ user.currency?.code }}</span></p>
+                <p>{{ form.fee }} <span *ngIf="user$ | async as user"> {{ user.currency?.code }}</span></p>
+                <span class="hr-b"></span>
+                <p class="font-md">{{ form.totalAmountToBeWithdrawn }} <span *ngIf="user$ | async as user"> {{ user.currency?.code }}</span></p>
+              </ons-col>
+            </ons-row>
+          </div>
+          <div class="gateway-form">
+            <ons-row class="gateway-wrap">
+              <ons-col width="90%" align="center" class="m-b-0">
+                <select formControlName="bankPaymentOption" #bankPaymentOption (ngModelChange)="onPaymentOptionChange(+bankPaymentOption.value)">
+                  <option value="" disabled>Select Bank Account</option>
+                  <ng-container *ngFor="let customerBankPaymentOption of customerBankPaymentOptions">
+                    <option [value]="customerBankPaymentOption.id">
+                      {{ customerBankPaymentOption.accountName }} ({{ customerBankPaymentOption.accountId }})
+                    </option>
+                  </ng-container>
+                </select>
+              </ons-col>
+              
+              <ng-container>
+                <ons-col width="10%" align="center" class="right m-b-0">
+                  <button (click)="popover.show(button)" #button type="button" class="info-bank-btn" [disabled]="!selectedBankPaymentOption">
+                    <i class="fas fa-info-circle font-xl"></i>
+                  </button>
+                </ons-col>
+              </ng-container>
+
+              <ons-col width="100%" align="center" class="m-t-5">
+                <span (click)="gotoBankAccount()" class="blue"><i class="fas fa-plus"></i> Link new bank account</span>
+              </ons-col>
+
+              <ng-container formArrayName="subtransactions" *ngFor="let subtransaction of form.transaction.get('subtransactions')['controls']; let j=index">
+                <ng-container [formGroupName]="j">
+                  <div class="product-amount-wrap">
+                    <ons-col width="100%" align="center">
+                      <select formControlName="product" #product (ngModelChange)="oldvalue=product.value; onProductChange(product.value, oldvalue)">
+                        <option value="" disabled selected>Please Select</option>
+                        <ng-container *ngFor="let customerProduct of customerProducts">
+                          <option [disabled]="isInChosenProducts(customerProduct)" [value]="customerProduct.id">
+                            {{ customerProduct.displayName }}
+                          </option>
+                        </ng-container>
+                      </select>
+                      <ul *ngIf="form.transaction.get('subtransactions')['controls'][j].get('product').hasError('formError')" class="invalid-user-feedback red-l font-sm">
+                        <li *ngFor="let error of form.transaction.get('subtransactions')['controls'][j].get('product').getError('formError')">
+                          {{ error }}
+                        </li>
+                      </ul>
+                    </ons-col>
+                    <ons-col width="100%" align="center">
+                      <label class="currency-label"><span *ngIf="user$ | async as user"> {{ user.currency?.code }}</span></label>
+                      <input decimal formControlName="amount" type="text" class="text-input input-eur" placeholder="Enter amount" value="">
+                      <ul *ngIf="form.transaction.get('subtransactions')['controls'][j].get('amount').hasError('formError')" class="invalid-user-feedback red-l font-sm">
+                        <li *ngFor="let error of form.transaction.get('subtransactions')['controls'][j].get('amount').getError('formError')">
+                          {{ error }}
+                        </li>
+                      </ul>
+                    </ons-col>
+                    <ons-col align="top" *ngIf="form.canRemoveSubtransaction()" class="cancel-space">
+                      <ons-button (click)="form.removeSubtransaction(j)" class="btn-red-outline w-100 center"><i class="fa fa-times"></i> </ons-button>
+                    </ons-col>
+                    <ons-col class="checkbox-container" width="100%" align="center">
+                      <label class="checkbox checkbox--material">
+                        <input formControlName="forFee" (click)="onChargeFeeClicked($event, j)" type="checkbox" class="checkbox__input checkbox--material__input" checked>
+                        <div class="checkbox__checkmark checkbox--material__checkmark"></div>
+                        Charge fee here
+                      </label>
+                    </ons-col>
+                  </div>
+                </ng-container>
+              </ng-container>
+
+              <ons-col width="100%" align="center" class="m-t-5">
+                <div>
+                  <input formControlName="transactionPassword" type="password" class="text-input" placeholder="Enter transaction password" value="">
+                  <ul *ngIf="form.transaction.get('transactionPassword').hasError('formError')" class="invalid-user-feedback red-l font-sm">
+                    <li *ngFor="let error of form.transaction.get('transactionPassword').getError('formError')">
+                      {{ error }}
+                    </li>
+                  </ul>
+                </div>
+              </ons-col>
+
+              <ons-col width="48%" align="center">
+                <ons-button (click)="form.addSubtransaction()" class="btn-custom button--quiet gray-d button m-r-10"><i class="fas fa-plus"></i> Add product</ons-button>
+              </ons-col>
+
+              <ons-col width="4%"></ons-col>
+
+              <ons-col width="48%" align="center" class="right btn-request">
+                <ons-button [ladda]="form.isSubmitting" (click)="onSubmit()" class="gradient-green left">Request</ons-button>
+              </ons-col>
+            </ons-row>
+          </div>
+        </div>
+      </ons-list-item>
+    </div>
+  </div>
+</form>
+
+<ons-popover direction="up" cancelable #popover class="filter-popover">
+  <ng-container *ngIf="selectedBankPaymentOption">
+    <div class="filter-popover-body">
+      <i class="fas fa-times bd-close gray" (click)="popover.hide()"></i>
+      <ons-col width="100%" class="m-b-5">
+        <strong>Account Name:</strong> {{ selectedBankPaymentOption.accountName }}
+      </ons-col>
+      <ons-col width="100%" class="m-b-5">
+        <strong>Account Address:</strong> {{ selectedBankPaymentOption.accountAddress }}
+      </ons-col>
+      <ons-col width="100%" class="m-b-5">
+        <strong>IBAN:</strong> {{ selectedBankPaymentOption.accountId }}
+      </ons-col>
+      <ons-col width="100%" class="m-b-5">
+        <strong>Bank Name:</strong> {{ selectedBankPaymentOption.bankName }}
+      </ons-col>
+      <ons-col width="100%" class="m-b-5">
+        <strong>SWIFT:</strong> {{ selectedBankPaymentOption.swiftCode }}
+      </ons-col>
+    </div>
+  </ng-container>
+</ons-popover>
+
+<ng-template #restricted>
+  <div class="dashboard_wrapper">
+    <div class=" content transaction-content">
+      <ons-list-item>
+        <div class="card-wrapper">
+          <ons-row align="center">
+            <ons-col class="col" align="left" width="30%">
+              <img src="../assets/images/gateway-bankwire-logo.svg">
+            </ons-col>
+          </ons-row>
+          <ons-row>
+            <ons-col>
+              <i class="fas fa-exclamation-circle fa-2x bg-clip-yellow"></i>
+            </ons-col>
+          </ons-row>
+          <ons-row class="info-content-sm m-t-10">
+            <ons-col class="col">
+              <div class="col-content p-lr-20">
+                <p class="font-md">Bank transactions are not possible as of the moment.</p>
+                <p class="font-sm m-t-5">For inquiries, please contact customer support.</p>
+                <p>Thank you.</p>
+              </div>
+            </ons-col>
+          </ons-row>
+        </div>
+      </ons-list-item>
+    </div>
+  </div>
+</ng-template>

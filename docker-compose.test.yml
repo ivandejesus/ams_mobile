@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  spa:
+    container_name: ams-mobile
+    build:
+      context: .
+      target: app-test
+    env_file:
+      - ./${ENV:-config/environment/test-variables.env}

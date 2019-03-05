@@ -1,0 +1,43 @@
+<div class="wrapper content-wrapper">
+  <ons-toolbar>
+    <div class="left">
+      <ons-toolbar-button>
+        <ons-back-button></ons-back-button>
+      </ons-toolbar-button>
+    </div>
+    <div class="center white">Transaction</div>
+    <div class="right">
+      <ons-toolbar-button (click)="gotoNotification()">
+        <i class="far fa-bell"></i>
+        <span *ngIf="notificationApi.hasUnread$ | async as hasUnread" class="badge"></span>
+      </ons-toolbar-button>
+    </div>
+  </ons-toolbar>
+
+  <div id="tabbar" class="tabbar tabbar--top tabbar--top-border">
+    <label class="tabbar__item tabbar--top-border__item" name="deposit">
+      <input type="radio" name="top-tabbar-b" class="top-tabbar-b" (click)="showDeposit()">
+      <button class="tabbar__button tabbar--top-border__button">
+        Deposit
+      </button>
+    </label>
+
+    <label class="tabbar__item tabbar--top-border__item" name="withdrawal">
+      <input type="radio" name="top-tabbar-b" class="top-tabbar-b" (click)="showWithdrawal()">
+      <button type="button" class="tabbar__button tabbar--top-border__button">
+        Withdrawal
+      </button>
+    </label>
+    
+    <label class="tabbar__item tabbar--top-border__item" name="transfer">
+      <input type="radio" name="top-tabbar-b" class="top-tabbar-b" (click)="showTransfer()">
+      <button type="button" class="tabbar__button tabbar--top-border__button">
+        Transfer
+      </button>
+    </label>
+  </div>
+  
+  <div class="body_wrapper">
+    <ng-template tabHost></ng-template>
+  </div>
+</div>

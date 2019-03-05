@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  spa:
+    container_name: ams-mobile
+    build:
+      context: .
+      target: app-prod
+    env_file:
+      - ./${ENV:-config/environment/test-variables.env}
+  proxy:
+      container_name: ams-proxy
+      image: nginx:alpine
+      ports:
+        - '80:80'
+        - '443:443'
+      volumes:
+        - ./config/proxy:/etc/nginx/conf.d
+        - ./config/nginx-ssl.conf:/etc/nginx/nginx-ssl.conf
+        - ./config/nginx-gzip.conf:/etc/nginx/conf.d/nginx-gzip.conf
+        - /etc/ssl/certs:/etc/ssl/certs
+        - /etc/nginx/.htpasswd:/etc/nginx/.htpasswd
+      links:
+        - spa:spa

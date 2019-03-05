@@ -1,0 +1,30 @@
+/* Typography css */
+.affiliate-wrap .title {
+  font-weight: 700;
+}
+/* End Typogrpahy css */
+.skype-betting-tabs ons-page {
+  margin-top: 129px !important;
+}
+.search-bar.m-c-a {
+  position: relative;
+  top: 32px;
+}
+.search-bar.m-c-a {
+  z-index: 99999;
+  position: relative;
+  top: -85px;
+}
+.tabbar.tabbar--top {
+  padding-top: 50px;
+  background-color: transparent;
+}
+
+@media only screen and (max-width: 320px) {
+  .gateway-form label {
+    font-size: 12px;
+  }
+  .currency-label {
+    font-size: 16px;
+  }  
+}

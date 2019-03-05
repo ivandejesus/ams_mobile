@@ -1,0 +1,101 @@
+<div *ngIf="!customerProducts" style="margin: 20px; text-align: center;">
+  <ons-progress-circular indeterminate></ons-progress-circular>
+</div>
+
+<ng-container *ngIf="customerProducts">
+  <form [formGroup]="form.transaction" (ngSubmit)="onSubmit()" id="product-wallet-form" novalidate>
+    <div class=" content transaction-content">
+      <div class="transaction-wrapper p-t-10">
+        <div class="expandable-content">
+          <div class="gateway-content gradient-red">
+            <ons-row class="gateway-wrap">
+              <ons-col width="65%" align="center" class="transaction-label">
+                <p>Amount to be transferred:</p>
+              </ons-col>
+              <ons-col width="35%" align="center" class="transaction-sum">
+                <p class="font-md">{{ form.totalAmount }} <span *ngIf="user$ | async as user"> {{ user.currency?.code }}</span></p>
+              </ons-col>
+            </ons-row>
+          </div>
+          <div class="gateway-form">
+
+            <ng-container *ngIf="form.transaction.hasError('formError')">
+                <span *ngFor="let error of form.transaction.getError('formError')">
+                  {{ error }}
+                </span>
+            </ng-container>
+
+            <ons-row class="gateway-wrap">
+              <!-- From Product -->
+              <ons-col width="100%" align="center">
+                <label>From Product</label>
+                <select formControlName="fromProduct" #fromProduct (ngModelChange)=" oldvalue=fromProduct.value; onProductChange(fromProduct.value, oldvalue)">
+                  <option value="" disabled selected>Please Select</option>
+                  <ng-container *ngFor="let customerProduct of customerProducts">
+                    <option [disabled]="isInChosenProducts(customerProduct)" [value]="customerProduct.id">
+                      {{ customerProduct.displayName }}
+                    </option>
+                  </ng-container>
+                </select>
+                <div *ngIf="form.transaction.get('fromProduct').hasError('formError')" class="red-l font-sm">
+                  <span *ngFor="let error of form.transaction.get('fromProduct').getError('formError')">
+                    {{ error }}
+                  </span>
+                </div>
+              </ons-col>
+
+              <!-- To Product -->
+              <ng-container formArrayName="subtransactions" *ngFor="let subtransaction of form.transaction.get('subtransactions')['controls']; let j=index">
+                <ng-container [formGroupName]="j">
+                  <div class="product-amount-wrap">
+                    <div class="to-product-wrap">
+                      <ons-row class="m-t-5 m-b-5">
+                        <ons-col width="100%" align="center">
+                          <label>To Product</label>
+                          <select formControlName="product" #product (ngModelChange)="oldvalue=product.value; onProductChange(product.value, oldvalue)">
+                            <option value="" disabled selected>Please Select</option>
+                            <ng-container *ngFor="let customerProduct of customerProducts">
+                              <option [disabled]="isInChosenProducts(customerProduct)" [value]="customerProduct.id">
+                                {{ customerProduct.username }}
+                              </option>
+                            </ng-container>
+                          </select>
+                          <ul *ngIf="form.transaction.get('subtransactions')['controls'][j].get('product').hasError('formError')" class="invalid-user-feedback red-l font-sm">
+                            <li *ngFor="let error of form.transaction.get('subtransactions')['controls'][j].get('product').getError('formError')">
+                              {{ error }}
+                            </li>
+                          </ul>
+                        </ons-col>
+                        <ons-col width="100%" align="center">
+                          <label class="currency-label" *ngIf="user$ | async as user">{{ user.currency?.code }}</label>
+                          <input decimal formControlName="amount" type="text" class="text-input input-eur" placeholder="Enter amount" value="">
+                          <ul *ngIf="form.transaction.get('subtransactions')['controls'][j].get('amount').hasError('formError')" class="invalid-user-feedback red-l font-sm">
+                            <li *ngFor="let error of form.transaction.get('subtransactions')['controls'][j].get('amount').getError('formError')">
+                              {{ error }}
+                            </li>
+                          </ul>
+                        </ons-col>
+                        <ons-col align="top" *ngIf="form.canRemoveSubtransaction()" class="cancel-space">
+                            <ons-button (click)="form.removeSubtransaction(j)" class="btn-red-outline w-100 center"><i class="fas fa-times"></i> </ons-button>
+                        </ons-col>
+                      </ons-row>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+
+              <!-- Buttons -->
+              <ons-col width="48%%" align="center">
+                <ons-button  (click)="form.addSubtransaction()" class="btn-custom button--quiet gray-d button m-r-10"><i class="fas fa-plus"></i> Add product</ons-button>
+              </ons-col>
+              <ons-col width="4%"></ons-col>
+              <ons-col width="48%%" align="center" class="right btn-request">
+                <ons-button [ladda]="form.isSubmitting" (click)="onSubmit()" type="submit" class="gradient-green left">Request</ons-button>
+              </ons-col>
+            </ons-row>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-container>

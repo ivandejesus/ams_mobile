@@ -1,0 +1,280 @@
+<div class="content-wrapper">
+  <div class="transaction-topbar gradient-red">
+    <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button>
+          <ons-back-button></ons-back-button>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">
+        Transaction History
+      </div>
+      <div class="right">
+        <ons-toolbar-button (click)="gotoNotification()">
+          <i class="far fa-bell"></i>
+          <span *ngIf="notificationApi.hasUnread$ | async as hasUnread" class="badge"></span>
+        </ons-toolbar-button>
+      </div>
+    </ons-toolbar>
+
+    <div class="search-bar m-c-a m-b-10">
+      <div class="input-group">
+        <div class="input-group-icon"><i class="fas fa-search"></i></div>
+        <div class="input-group-area"><input type="search" #searchBox (input)="onSearch(searchBox.value)"></div>
+        <button class="input-group-icon" (click)="popover.show(button)" #button><i class="fas fa-sliders-h"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <ons-popover direction="up down" cancelable #popover class="filter-popover">
+    <div class="filter-popover-body">
+      <form [formGroup]="form.transactionHistoryForm" (ngSubmit)="onFilter()" novalidate>
+        <ons-row>
+          <ons-col width="50%" class="wrap-datepicker m-r-5">
+            <i class="fas fa-calendar gradient-icon-blue"></i>
+            <ons-input formControlName="dateFrom" type="date" class="w-100" placeholder="mm/dd/yyy"></ons-input>
+          </ons-col>
+          <ons-col width="48%" class="wrap-datepicker">
+            <i class="fas fa-calendar gradient-icon-blue"></i>
+            <ons-input formControlName="dateTo" type="date" class="w-100" placeholder="mm/dd/yyy"></ons-input>
+          </ons-col>
+        </ons-row>
+        <ons-row>
+          <ons-col width="50%" class="m-r-5">
+            <ons-select formControlName="type" class="w-100">
+              <option *ngFor="let type of transactionHistoryType | keyvalue" value="{{ type.key }}">{{ type.value }}</option>
+            </ons-select>
+          </ons-col>
+
+          <ons-col width="48%">
+            <ons-select formControlName="status" class="w-100">
+              <option *ngFor="let status of transactionHistoryStatus | keyvalue" value="{{ status.key }}">{{
+                status.value }}</option>
+            </ons-select>
+          </ons-col>
+
+          <ons-col width="100%" *ngIf="paymentOptions$ | async as paymentOptions">
+            <ons-select formControlName="paymentOption" class="w-100">
+              <option value="" selected>All Payment Options</option>
+              <option *ngFor="let option of paymentOptions" value="{{ option.type }}">{{ option.type }}</option>
+            </ons-select>
+          </ons-col>
+        </ons-row>
+        <div class="right filter-buttons">
+          <button type="button" class="btn-custom button--quiet gray-d button m-r-10" (click)="onReset()">Reset Filters</button>
+          <button type="submit" class="btn-custom gradient-yellow button" (click)="popover.hide(button)">Apply</button>
+        </div>
+      </form>
+    </div>
+
+  </ons-popover>
+
+  <!-- Transaction Content -->
+  <div class="content transaction_history_content m-b-chat">
+    <div *ngIf="transactionApi.transactionHistoryList$ | async as transactionHistoryList" class="transaction-history_custom-card">
+      <ons-list *ngIf="transactionHistoryList.items.length > 0 else noResult"  modifier="inset">
+        <ons-pull-hook height="64px" threshold-height="128px" (changestate)="onPullHookChangeState($event)" (action)="onPullHookRelease($event)">
+          {{ pullHookMessage }}
+        </ons-pull-hook>
+        <ons-list-item *ngFor="let item of transactionHistoryList.items" expandable>
+          <ons-row class="header-title">
+            <ons-col class="left"  width="60%">
+              <label class="label center" [transactionStatus]="item.status">{{ item.status }}</label>
+              <label class="label center gray-bg">{{ item.type }}</label>
+            </ons-col>
+            <ons-col class="right" align="center" width="40%">
+              <small><strong>{{ item.date }}</strong></small>
+            </ons-col>
+          </ons-row>
+          <ons-row class="header-content">
+            <ons-col width="60%">
+              <div class="left transaction-number">
+                <label>Transaction Number:</label>
+                <h1>{{ item.transactionNumber }}</h1>
+              </div>
+            </ons-col>
+            <ons-col width="40%" align="center" class="right transaction-label">
+              <h1>{{ item.amount }} <small>{{ item.currency.code }}</small></h1>
+            </ons-col>
+          </ons-row>
+
+          <div class="expandable-content" [transactionBodyStatus]="item.status">
+            <ons-row>
+              <p class="white">
+                Product:
+
+                <!-- p2p product details -->
+                <span *ngIf="item.productDetails.isP2P() && item.productDetails.isReceiver">
+                  <span *ngFor="let detail of item.productDetails.from"><strong> {{ detail.productName }} ({{
+                      (detail.username == '') ? 'N/A' : detail.username }})</strong></span>
+                  <span *ngFor="let detail of item.productDetails.to"><br>Sent To: <strong>
+                    {{ detail.productName }} ({{ (detail.username == '') ? 'N/A' : detail.username }}) </strong></span>
+                </span>
+
+                <span *ngIf="item.productDetails.isP2P() && !item.productDetails.isReceiver">
+                  <span *ngFor="let detail of item.productDetails.to"><strong> {{ detail.productName }} ({{
+                      (detail.username == '') ? 'N/A' : detail.username }})</strong></span>
+                  <span *ngFor="let detail of item.productDetails.from"><br>Received From: <strong> {{
+                      detail.productName }} ({{ (detail.username == '') ? 'N/A' : detail.username }})</strong></span>
+                </span>
+
+                <!-- product wallet product details -->
+                <span *ngIf="item.productDetails.isTransfer() && item.productDetails.isReceiver">
+                  <span *ngFor="let detail of item.productDetails.from"><strong> {{ detail.productName }} ({{
+                      (detail.username == '') ? 'N/A' : detail.username }})</strong></span>
+                  <span *ngFor="let detail of item.productDetails.to"><br>Sent To: <strong>{{ detail.productName }} ({{
+                      (detail.username == '') ? 'N/A' : detail.username }})</strong></span>
+                </span>
+
+                <span *ngIf="item.productDetails.isTransfer() && !item.productDetails.isReceiver">
+                  <span *ngFor="let detail of item.productDetails.from"><br>From: <strong>{{
+                    detail.productName }} ({{ (detail.username == '') ? 'N/A' : detail.username }})</strong></span>
+                  <span *ngFor="let detail of item.productDetails.to"><br>To:<strong>{{ detail.productName }} ({{
+                    (detail.username == '') ? 'N/A' : detail.username }})</strong></span>
+                </span>
+
+                <!-- bonus, deposit,  product details -->
+                <span *ngIf="item.productDetails.isBonus() || item.productDetails.isDeposit() || item.productDetails.isCredit() || item.productDetails.isDebit() || item.productDetails.isCommission()">
+                  <span *ngFor="let detail of item.productDetails.to"><strong>{{ detail.productName }} ({{
+                    (detail.username == '') ? ' ' : detail.username }})</strong></span>
+                </span>
+
+                <!-- debit,  product details -->
+                <span *ngIf="item.productDetails.isDebit()">
+                  <span *ngFor="let detail of item.productDetails.from"><strong>{{ detail.productName }} ({{
+                    (detail.username == '') ? ' ' : detail.username }})</strong></span>
+                </span>
+
+                <!-- other transaction -->
+                <span *ngIf="
+                  !item.productDetails.isP2P()
+                  && !item.productDetails.isTransfer()
+                  && !item.productDetails.isBonus()
+                  && !item.productDetails.isDeposit()
+                  && !item.productDetails.isCredit()
+                  && !item.productDetails.isDebit()
+                  && !item.productDetails.isCommission()
+                  ">
+                  <span *ngFor="let detail of item.productDetails.from"><strong>{{ detail.productName }} ({{
+                      (detail.username == '') ? 'N/A' : detail.username }})</strong></span>
+                </span>
+
+              </p>
+            </ons-row>
+
+            <!-- Payment Options -->
+            <ons-row class="m-t-5">
+              <p class="white">
+                Payment Option: <span *ngIf="item.productDetails.isCommission() || item.productDetails.isBonus()">SYSTEM GENERATED</span>
+                <span *ngIf="item.productDetails.isDebit() || item.productDetails.isCredit()">N/A</span>
+                <span>{{ item.paymentOption }}</span>
+              </p>
+            </ons-row>
+
+            <!-- Notes, visible only in debit and credit -->
+            <ons-row class="m-t-5" *ngIf="item.productDetails.isCredit() || item.productDetails.isDebit()">
+              <p class="white" *ngIf="item.isProcessed()">
+                Notes in Details: <span>{{ item.notesInDetails }}</span>
+              </p>
+            </ons-row>
+
+            <!-- For Decline and Voided -->
+            <ons-row class="m-t-5" *ngIf="item.isDeclined() || item.isVoided()">
+              <p class="white" *ngIf="item.isVoided() || item.isDeclined()">
+                Reason: <span>{{ item.voidingReason }}</span>
+              </p>
+
+              <span class="w-100 hr-b m-b-10"></span>
+              <ons-col width="65%" align="center" class="transaction-label">
+                <p>Amount to be deposited:</p>
+                <p>Fee:</p>
+                <span class="hr-b"></span>
+                <p>TOTAL AMOUNT:</p>
+              </ons-col>
+              <ons-col width="35%" align="center" class="transaction-sum">
+                <p><span>{{ item.amount }} {{ item.currency.code }}</span></p>
+                <p><span>{{ item.fee }} {{ item.currency.code }}</span></p>
+                <span class="hr-b"></span>
+                <p><span>{{ item.amount }} {{ item.currency.code }}</span></p>
+              </ons-col>
+            </ons-row>
+
+            <ons-row class="m-t-5" *ngIf="item.isProcessed() || item.isRequested() || item.isAcknowledged() && !item.productDetails.isCommission()">
+              <span class="w-100 hr-b m-b-10"></span>
+              <ons-col *ngIf="!item.productDetails.isWithdrawal()" width="65%" align="center" class="transaction-label">
+                <p>Amount to be deposited:</p>
+                <p>Fee:</p>
+                <span class="hr-b"></span>
+                <p>TOTAL AMOUNT:</p>
+              </ons-col>
+
+              <ons-col *ngIf="item.productDetails.isWithdrawal()" width="65%" align="center" class="transaction-label">
+                <p>Amount to be deducted:</p>
+                <p>Fee:</p>
+                <span class="hr-b"></span>
+                <p>TOTAL AMOUNT:</p>
+              </ons-col>
+
+              <!-- DEPOSIT -->
+              <ons-col *ngIf="item.productDetails.isCredit() || item.productDetails.isDebit() || item.productDetails.isCommission() || item.productDetails.isDeposit() || item.productDetails.isTransfer() || item.productDetails.isP2P() || item.productDetails.isBonus()" width="35%" align="center" class="transaction-sum">
+                <p><span>{{ item.customerAmount }} {{ item.currency.code }}</span></p>
+                <p><span>{{ item.fee }}</span></p>
+                <span class="hr-b"></span>
+                <p><span>{{ item.amount }} {{ item.currency.code }}</span></p>
+              </ons-col>
+
+                <!-- WITHDRAWAL -->
+              <ons-col *ngIf="item.productDetails.isWithdrawal()" width="35%" align="center" class="transaction-sum">
+                <p><span>{{ item.amount }} {{ item.currency.code }}</span></p>
+                <p><span>{{ item.fee }}</span></p>
+                <span class="hr-b"></span>
+                <p><span>{{ item.customerAmount }} {{ item.currency.code }}</span></p>
+              </ons-col>
+            </ons-row>
+
+            <!-- For Commission -->
+            <ons-row class="m-t-5" *ngIf="item.productDetails.isCommission()">
+              <span class="w-100 hr-b m-b-10"></span>
+              <p class="white">Commission Period: <span>{{ item.commissionDateFrom }} to {{ item.commissionDateTo }}</span></p>
+              <p class="white">Original Payout Date: <span>{{ item.commissionPayoutAt }}</span></p>
+              <span class="w-100 hr-b m-t-10 m-b-10"></span>
+              <ons-col width="50%" align="center" class="transaction-label">
+                <p>EUR Commission:</p>
+                <p>GBP Commission:</p>
+                <p>Converted Commission:</p>
+                <span class="hr-b"></span>
+                <p>TOTAL COMMISSION:</p>
+              </ons-col>
+              <ons-col width="50%" align="center" class="transaction-sum">
+                <p><span>{{ item.commissionConvertionsEUR }} EUR</span></p>
+                <p><span>{{ item.commissionConvertionsGBP }} GBP</span></p>
+                <p><span>{{ item.convertedAmount }}{{ item.currency.code }}</span></p>
+                <span class="hr-b"></span>
+                <p><span>{{ item.amount }} {{ item.currency.code }}</span></p>
+              </ons-col>
+            </ons-row>
+            <!-- End For Commission -->
+          </div>
+        </ons-list-item>
+      </ons-list>
+    </div>
+
+    <div class="m-20 center m-t-20" *ngIf="showSpinner">
+      <ons-icon icon="fa-spinner" size="26px" spin></ons-icon>
+    </div>
+
+    <ng-template #noResult>
+      <div *ngIf="transactionApi.transactionHistoryList$ | async as transactionHistoryList" class="no-result center font-lg">
+        <span *ngIf="form.transactionHistoryForm.dirty || searchBox.value.length > 0 || (transactionHistoryList.pagination.page > 0 && transactionHistoryList.items.length < 1)">No Result Found!</span>
+      </div>
+    </ng-template>
+
+  </div>
+
+  <ons-speed-dial position="right bottom" direction="up" #speedDial>
+    <ons-fab (click)="scrollToTop()">
+      <ons-icon icon="md-chevron-up"></ons-icon>
+    </ons-fab>
+  </ons-speed-dial>
+  <!-- Transaction Content -->
+</div>

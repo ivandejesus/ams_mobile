@@ -1,0 +1,21 @@
+.notif-warning-bg {
+  background-color: rgba(255, 180, 0, 0.8);
+}
+.notif-success-bg {
+  background-color: rgba(82, 159, 124, 0.8);
+}
+.notif-danger-bg {
+  background-color: rgba(193, 39, 45, 0.8);
+}
+.notif-general-bg {
+  background-color: rgba(44, 157, 222, 0.8);
+}
+
+.toast {
+  padding: 10px;
+}
+.toast__message p:first-child {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}

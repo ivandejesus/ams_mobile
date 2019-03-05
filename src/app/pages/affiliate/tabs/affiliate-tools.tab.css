@@ -1,0 +1,11 @@
+/* Tab */
+.segment--material__button {
+  font-weight: 700;
+}
+:checked+.segment--material__button {
+  background-color: #ffffff;
+  color: #c1333c;
+  border-radius: 0;
+  border-width: 0;
+}
+/* End tabs */

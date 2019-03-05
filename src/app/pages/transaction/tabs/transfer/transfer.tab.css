@@ -1,0 +1,20 @@
+/* Tab */
+.segment--material__button {
+  font-weight: 700;
+}
+:checked+.segment--material__button {
+  background-color: #ffffff;
+  color: #c1333c;
+  border-radius: 0;
+  border-width: 0;
+}
+.transaction-btn button {
+  width: 92%;
+  margin-bottom: 10px;
+}
+/* End tabs */
+.btn-custom {
+  /* width: 90%; */
+  margin-top: 5px;
+  margin-bottom: 15px;
+}

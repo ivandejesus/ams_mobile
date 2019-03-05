@@ -1,0 +1,141 @@
+<form *ngIf="false else restricted" [formGroup]="form.transaction" (ngSubmit)="onSubmit()" id="bank-deposit-form" novalidate>
+  <div class="dashboard_wrapper">
+    <div class=" content transaction-content">
+      <ons-list-item expandable>
+        <div class="card-wrapper">
+          <ons-row align="center">
+            <ons-col class="col" align="left" width="30%">
+              <img src="../assets/images/gateway-bankwire-logo.svg">
+            </ons-col>
+          </ons-row>
+          <ons-row class="info-content info-content-sm">
+            <ons-col class="col" align="top">
+              <div class="col-content left">
+                <ons-row>
+                  <ons-col width="10%"><i class="fas fa-check"></i></ons-col>
+                  <ons-col width="90%"><strong>Processing time:</strong> {{ customerPaymentOption.processingTimeDeposit }}</ons-col>
+                </ons-row>
+                <ons-row>
+                  <ons-col width="10%"><i class="fas fa-check"></i></ons-col>
+                  <ons-col width="90%"><strong>Fee:</strong> {{ customerPaymentOption.feeDisplayFor('deposit') }}</ons-col>
+                </ons-row>
+              </div>
+            </ons-col>
+            <ons-col class="col" align="top">
+              <div class="col-content left">
+                <ons-row>
+                  <ons-col width="10%"><i class="fas fa-check"></i></ons-col>
+                  <ons-col width="90%"><strong>Min. deposit amount:</strong> {{ customerPaymentOption.minimumDeposit }}</ons-col>
+                </ons-row>
+                <ons-row>
+                  <ons-col width="10%"><i class="fas fa-check"></i></ons-col>
+                  <ons-col width="90%"><strong>Max. deposit amount:</strong> {{ customerPaymentOption.maximumDeposit }}</ons-col>
+                </ons-row>
+              </div>
+            </ons-col>
+          </ons-row>
+        </div>
+        <div class="expandable-content">
+          <div class="right m-b-10">
+            <span (click)="showPopover()" #button class="blue m-r-10"><i class="fas fa-info-circle"></i> AC Bank Account Info</span>
+          </div>
+          <div class="gateway-content gradient-orange-d">
+            <ons-row class="gateway-wrap">
+              <ons-col width="65%" align="center" class="transaction-label">
+                <p>Amount to be deposited:</p>
+                <p>Fee:</p>
+                <span class="hr-b"></span>
+                <p class="font-md">TOTAL AMOUNT:</p>
+              </ons-col>
+              <ons-col width="35%" align="center" class="transaction-sum">
+                <p>{{ form.totalAmount }} <span *ngIf="user$ | async as user"> {{ user.currency?.code }}</span></p>
+                <p>{{ form.fee }} <span *ngIf="user$ | async as user"> {{ user.currency?.code }}</span></p>
+                <span class="hr-b"></span>
+                <p class="font-md">{{ form.totalAmountToBeSent }} <span *ngIf="user$ | async as user"> {{ user.currency?.code }}</span></p>
+              </ons-col>
+            </ons-row>
+          </div>
+          <div class="gateway-form">
+            <ons-row class="gateway-wrap">
+              <ng-container formArrayName="subtransactions" *ngFor="let subtransaction of form.transaction.get('subtransactions')['controls']; let j=index">
+                <ng-container [formGroupName]="j">
+                  <div class="product-amount-wrap">
+                    <ons-col width="100%" align="top">
+                      <select formControlName="product" #product (ngModelChange)="onProductChange(product.value, oldvalue, j);oldvalue=product.value">
+                        <option value="" disabled selected>Please Select</option>
+                        <ng-container *ngFor="let customerProduct of customerProducts">
+                          <option [disabled]="isInChosenProducts(customerProduct)" [value]="customerProduct.id">
+                            {{ customerProduct.displayName }}
+                          </option>
+                        </ng-container>
+                      </select>
+                      <div *ngIf="form.transaction.get('subtransactions')['controls'][j].get('product').hasError('formError')" class="red-l font-sm">
+                          <span *ngFor="let error of form.transaction.get('subtransactions')['controls'][j].get('product').getError('formError')">
+                            {{ error }}
+                          </span>
+                      </div>
+                    </ons-col>
+                    <ons-col width="100%" align="top">
+                      <label class="currency-label" *ngIf="user$ | async as user">{{ user.currency?.code }}</label>
+                      <input decimal formControlName="amount" type="text" class="text-input input-eur" placeholder="Enter amount" value="">
+                      <ul *ngIf="form.transaction.get('subtransactions')['controls'][j].get('amount').hasError('formError')" class="red-l font-sm list-unstyled">
+                        <li *ngFor="let error of form.transaction.get('subtransactions')['controls'][j].get('amount').getError('formError')">
+                          {{ error }}
+                        </li>
+                      </ul>
+                    </ons-col>
+                    <ons-col align="top" *ngIf="form.canRemoveSubtransaction()" class="cancel-space">
+                      <ons-button (click)="form.removeSubtransaction(j)" class="btn-red-outline w-100 center"><i class="fas fa-times"></i> </ons-button>
+                    </ons-col>
+                  </div>
+                </ng-container>
+              </ng-container>
+
+              <ons-col width="100%">
+                <input fileInput type="file" name="file" id="file" class="text-input file-input" (change)="onFileChange($event)"/>
+              </ons-col>
+
+              <ons-col width="48%" align="top">
+                <ons-button (click)="form.addSubtransaction()" class="btn-custom button--quiet gray-d button m-r-10"><i class="fas fa-plus"></i> Add product</ons-button>
+              </ons-col>
+              <ons-col width="4%"></ons-col>
+              <ons-col width="48%" align="top" class="right btn-request">
+                <ons-button [ladda]="form.isSubmitting" (click)="onSubmit()" type="submit" class="gradient-green left">Request</ons-button>
+              </ons-col>
+            </ons-row>
+          </div>
+        </div>
+      </ons-list-item>
+    </div>
+  </div>
+</form>
+
+<ng-template #restricted>
+  <div class="dashboard_wrapper">
+    <div class=" content transaction-content">
+      <ons-list-item>
+        <div class="card-wrapper">
+          <ons-row align="center">
+            <ons-col class="col" align="left" width="30%">
+              <img src="../assets/images/gateway-bankwire-logo.svg">
+            </ons-col>
+          </ons-row>
+          <ons-row>
+            <ons-col>
+              <i class="fas fa-exclamation-circle fa-2x bg-clip-yellow"></i>
+            </ons-col>
+          </ons-row>
+          <ons-row class="info-content-sm m-t-10">
+            <ons-col class="col">
+              <div class="col-content p-lr-20">
+                <p class="font-md">Bank transactions are not possible as of the moment.</p>
+                <p class="font-sm m-t-5">For inquiries, please contact customer support.</p>
+                <p>Thank you.</p>
+              </div>
+            </ons-col>
+          </ons-row>
+        </div>
+      </ons-list-item>
+    </div>
+  </div>
+</ng-template>

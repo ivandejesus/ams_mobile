@@ -1,0 +1,161 @@
+.btn-custom {
+  width: 100%;
+}
+.info-bank-btn {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+button:not([disabled]).info-bank-btn i {
+  background: -webkit-linear-gradient(left,#ea5238,#e4715c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.list-item__expandable-content {
+  padding: 0 !important;
+}
+.custom-card-transaction {
+  padding: 0;
+  box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.18);
+  border-radius: 5px;
+  margin: 15px;
+  border-top: 4px solid #C1272D !important;
+}
+.card-wrapper {
+  padding: 0 10px;
+  width: 100%;
+}
+.col-profile ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.col-profile ul li {
+  font-size: 11px;
+}
+.col-profile a {
+  color: #2C9DDE;
+}
+.info-content ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.info-content ul li {
+  font-size: 12px;
+}
+.info-content {
+  margin: 15px 0 0 0;
+}
+.info-content i {
+  color: #529F7C;
+  margin-right: 5px;
+}
+.transaction-wrapper {
+  margin: 0 !important;
+}
+.transaction-wrapper ons-list-item {
+  padding: 0;
+  border-top: 4px solid #C1272D !important;
+  border-radius: 5px;
+  box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.18);
+  background-image: none !important;
+}
+.transaction-wrapper ons-list {
+  margin: 15px;
+  overflow: auto !important;
+  display: initial;
+  border: none;
+}
+.transaction-wrapper .expandable-content {
+  padding: 0;
+}
+.text-input.input-eur {
+  padding-left: 53px !important;
+}
+.cancel-space {
+  margin-left: 3%;
+}
+/**********/
+.checkbox-container {
+  font-style: italic;
+  font-size: 14px;
+}
+.checkbox-container input{
+  height: auto !important;
+  width: auto;
+  border: none !important;
+}
+.transaction-wrapper {
+  margin: 15px;
+}
+.transaction-btn button {
+  width: 100% !important;
+  border-radius: 5px;
+}
+.gradient-pg-blue {
+  background: linear-gradient(to right, #033564, #194C7C);
+}
+.gradient-pg-purple {
+  background: linear-gradient(to right, #862165, #8C2F6E);
+}
+.bitcoin-logo {
+  width: 34% !important;
+}
+.gateway-logo {
+  width: 69% !important;
+}
+.withdraw-input_btn {
+  position: absolute;
+  height: 37px;
+  font-size: 12px;
+  border-radius: 0 5px 5px 0;
+  right: 15px;
+}
+.btc-rate {
+  color: #000 !important;
+}
+.current-rate {
+  font-size: 10px;
+  color: #999 !important;
+  text-shadow: none !important;
+}
+.info-content-sm {
+  font-size: 12px;
+}
+.blue-icon {
+  background: -webkit-linear-gradient(left, #EB4E32, #E4725D);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.btn-pop-over {
+  width: auto !important;
+}
+.lnba-wrapper {
+  border-radius: 5px;
+  background-color: #fff;
+}
+@media only screen and (max-width: 320px) {
+  .card-wrapper {
+    padding: 5px 5px 5px 10px;
+    width: 100%;
+  }
+  .gateway-wrap h1{
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #0000006e;
+    line-height: 23px;
+    font-size: 19px;
+  }
+  .gateway-wrap small{
+    color: #eaeaea;
+    font-size: 10px;
+  }
+  .info-content ul li {
+    font-size: 10px;
+  }
+  .btc-rate {
+    color: #000 !important;
+    font-size: 15px !important;
+  }
+}

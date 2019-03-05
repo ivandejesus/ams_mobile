@@ -1,0 +1,48 @@
+<form [formGroup]="loginForm" id="login-form" novalidate class="margin-bot-20">
+  <ons-row>
+    <ons-col>
+      <div class="login-label">
+        <h1>Log In</h1>
+        <small>to continue to your account</small>                
+      </div>
+    </ons-col>
+    <ons-col width="100%" class="relative">
+      <i class="fas fa-user"></i> 
+      <ons-input formControlName="username" type="text" class="login-field" ngDefaultControl float modifier="material" placeholder="Username"></ons-input>
+      <div *ngIf="loginForm.get('username').hasError('required') && loginForm.get('username').touched" class="invalid-feedback">
+          <small>Username is required</small>
+      </div>
+    </ons-col>
+    <ons-col width="100%" class="relative m-t-20">
+      <i class="fas fa-lock"></i>
+      <ons-input formControlName="password" type="password" class="login-field" ngDefaultControl float modifier="material" placeholder="Password"></ons-input>
+      <div *ngIf="loginForm.get('password').hasError('required') && loginForm.get('password').touched"class="invalid-feedback">
+          <small>Password is required</small>
+      </div>
+    </ons-col>
+  </ons-row>
+  <ons-row>
+    <ons-col width="100%" class="relative">
+      <div *ngIf="loginForm.hasError('formError')"class="invalid-feedback">
+          <small>Invalid Credentials!</small>
+      </div>
+    </ons-col>
+  </ons-row>
+  <ons-row>
+  <ons-row>
+    <ons-col width="100%">
+      <div class="left forgot-password">
+        <a (click)="gotoForgotPassword()"><small>Forgot your password?</small></a>
+      </div>
+    </ons-col>
+  </ons-row> 
+
+    <ons-col width="100%">
+        <div class="signup-login center">
+          <ons-button (click)="onSubmit()" class="btn-custom gradient-red white button w-100">Login</ons-button>
+          <ons-progress-bar *ngIf="isSubmitting" indeterminate class="m-b-5"></ons-progress-bar>
+          <small>Don't have any account yet? <a href="#" class="red">Sign up</a></small>  
+        </div>
+    </ons-col>
+  </ons-row>
+</form>

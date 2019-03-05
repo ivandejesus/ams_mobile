@@ -1,0 +1,42 @@
+<ons-page>
+    <ons-pull-hook height="64px" threshold-height="128px" (changestate)="onPullHookChangeState($event)" (action)="onPullHookRelease($event)">
+      {{ pullHookMessage }}
+    </ons-pull-hook>
+  <div class="outstanding-container">
+    <ons-list modifier="inset" class="outstanding-wrap" *ngIf="outstandingBetsRecords && outstandingBetsRecords.bets.length > 0 else noResult">
+      
+      <ons-list-item expandable *onsLazyRepeat="let list of outstandingBetsRecords.bets">
+        <ons-row>
+          <ons-col width="20%">{{ list.event_date }}</ons-col>
+          <ons-col><span>FT/1x2: </span>{{ list.home }} VS {{ list.away }}</ons-col>
+        </ons-row>
+        <div class="expandable-content">
+          <ons-row>
+            <ons-col><span>Bet ID:</span>{{ list.id }}</ons-col>
+            <ons-col><span>Odds:</span>{{ list.odds | number:'0.2' }}</ons-col>
+          </ons-row>
+          <ons-row>
+            <ons-col><span>Selection:</span>{{ list.home }}</ons-col>
+            <ons-col><span>Stake:</span>{{ list.stake | number:'0.2' }}</ons-col>
+          </ons-row>
+        </div>
+      </ons-list-item>
+
+    </ons-list>
+
+    <ng-template #noResult>
+      <div class="no-result center font-lg">
+        <span>No Result Found!</span>
+      </div>
+    </ng-template>
+
+    <div class="m-20 center m-h-200" *ngIf="showSpinner">
+      <ons-icon icon="fa-spinner" size="26px" spin></ons-icon>
+    </div>
+
+    <ons-speed-dial position="right bottom" direction="up" #speedDial>
+      <ons-fab (click)="scrollToTop()"><ons-icon icon="md-chevron-up"></ons-icon></ons-fab>
+    </ons-speed-dial>
+
+  </div>
+</ons-page>

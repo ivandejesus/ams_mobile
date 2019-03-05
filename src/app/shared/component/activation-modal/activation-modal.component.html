@@ -1,0 +1,25 @@
+<ons-alert-dialog class="activation-modal" #activationPromptDialog>
+  <ons-toolbar>
+    <div class="right">
+      <ons-toolbar-button>
+        <a (click)="onActivateLater()" class="gray">
+          <i class="fas fa-times"></i>
+        </a>
+      </ons-toolbar-button>
+    </div>
+  </ons-toolbar>
+
+  <div class="alert-dialog-title center">
+    <img src="../assets/images/star-activation.svg">
+  </div>
+  <div class="alert-dialog-content">
+    <div class="center">
+      <h1 class="font-xxl m-10-0">Welcome to Asianconnect Member Site!</h1>
+      <p class="lead m-b-10">Setup your username and password now to activate your account.</p>
+      <p class="note font-sm m-b-10">Note: Your temporary username and password was sent to your email.</p>
+    </div>
+    <div class="m20 modal-close center">
+      <a (click)="onProceed()" class="btn-custom gradient-green center button">Activate Now</a>
+    </div>
+  </div>
+</ons-alert-dialog>

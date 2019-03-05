@@ -1,0 +1,38 @@
+<div class="wrapper content-wrapper">
+  <ons-toolbar>
+    <div class="left">
+      <ons-toolbar-button>
+        <ons-back-button></ons-back-button>
+      </ons-toolbar-button>
+    </div>
+    <div class="center">
+      <img src="../assets/images/ac-logo-white.svg" class="white-logo" width="28">
+      Affiliate
+    </div>
+    <div class="right">
+      <ons-toolbar-button (click)="gotoNotification()">
+        <i class="far fa-bell"></i>
+        <span *ngIf="notificationApi.hasUnread$ | async as hasUnread" class="badge"></span>
+      </ons-toolbar-button>
+    </div>
+  </ons-toolbar>
+  
+  <div class="tabbar tabbar--top tabbar--top-border">
+    <label class="tabbar__item tabbar--top-border__item">
+      <input type="radio" name="top-tabbar-b" checked="checked" (click)="showDashboard()">
+      <button class="tabbar__button tabbar--top-border__button">
+        Dashboard
+      </button>
+    </label>
+
+    <label class="tabbar__item tabbar--top-border__item">
+      <input type="radio" name="top-tabbar-b" (click)="showTools()">
+      <button type="button" class="tabbar__button tabbar--top-border__button">
+        Tools
+      </button>
+    </label>
+  </div>
+  <div class="affiliate">
+    <ng-template tabHost></ng-template>
+  </div>
+</div>

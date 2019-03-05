@@ -1,0 +1,73 @@
+<ons-alert-dialog *ngIf="type === 'success' || type === 'danger' || type === 'warning' || type === 'okCancel'" [attr.cancelable]="cancelable" #alert class="custom-modal">
+  <!-- Alert type -->
+  <div *ngIf="type === 'success'" class="alert-dialog-title green-bg center">
+    <i class="fas fa-check"></i> &nbsp;{{ title }}
+  </div>
+  <div *ngIf="type === 'danger'" class="alert-dialog-title red-bg center">
+    <i class="fas fa-times"></i> &nbsp;{{ title }}
+  </div>
+  <div *ngIf="type === 'warning'" class="alert-dialog-title orange-bg center">
+    <i class="fas fa-clock"></i> &nbsp;{{ title }}
+  </div>
+  <div *ngIf="type === 'okCancel'" class="alert-dialog-title orange-bg center">
+    <i class="fas fa-exclamation-circle"></i> &nbsp;{{ title }}
+  </div>
+
+  <!-- Alert message -->
+  <div class="alert-dialog-content">
+    <div class="center">
+      <h1>{{ message }}</h1>
+      <p>{{ subMessage }}</p>
+    </div>
+    <div class="m-t-10 modal-close center">
+      <a *ngIf="type === 'success'" (click)="onOk()" class="btn-modal gradient-green button">OK</a>
+      <a *ngIf="type === 'danger'" (click)="onOk()" class="btn-modal gradient-red button">OK</a>
+      <a *ngIf="type === 'warning'" (click)="onOk()" class="btn-modal gradient-orange button">OK</a>
+      <a *ngIf="type === 'okCancel'" (click)="onOk()" class="btn-modal gradient-orange button m-r-10">Yes</a>
+      <a *ngIf="type === 'okCancel'" (click)="cancel()" class="btn-modal gray-bg button">Cancel</a>
+    </div>
+  </div>
+</ons-alert-dialog>
+
+<ons-alert-dialog *ngIf="type === 'activation'" #alert class="activation-modal" cancelable>
+  <!-- Alert type -->
+  <ons-toolbar>
+    <div class="right">
+      <ons-toolbar-button>
+        <a (click)="onActivateLater()" class="gray">
+          <i class="fas fa-times"></i>
+        </a>
+      </ons-toolbar-button>
+    </div>
+  </ons-toolbar>
+
+  <div class="alert-dialog-title center">
+      <img src="../assets/images/star-activation.svg">
+    </div>
+  <div class="alert-dialog-content">
+    <div class="center">
+      <h1 class="font-xxl m-10-0">{{ message }}</h1>
+      <p class="lead m-b-10">Setup your username and password now to activate your account.</p>
+      <p class="note font-sm m-b-10">Note: Your temporary username and password was sent to your email.</p>
+    </div>
+    <div class="m20 modal-close center">
+      <a (click)="onOk()" class="btn-custom gradient-green center button m-b-20">Activate Now</a>
+    </div>
+  </div>
+</ons-alert-dialog>
+
+<!-- Popover -->
+<ons-alert-dialog *ngIf="type === 'popover'" #alert class="activation-modal" cancelable>
+  <!-- Alert type -->
+  <ons-toolbar>
+    <div class="right m-r-10">
+      <i (click)="onActivateLater()" class="gray fas fa-times font-lg"></i>
+    </div>
+  </ons-toolbar>
+
+  <div class="alert-dialog-content">
+    <div class="left font-sm alert-bank-custom">
+      <p [innerHTML]="message"></p>
+    </div>
+  </div>
+</ons-alert-dialog>

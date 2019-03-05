@@ -1,0 +1,31 @@
+<ons-page><div class="segment segment--material w-100" style="margin: 0 auto;">
+  <div class="segment__item segment--material__item">
+    <input type="radio" class="segment__input segment--material__input" name="segment-b" checked (click)="showProductTab()">
+    <div class="segment__button segment--material__button">Products</div>
+  </div>
+  <div class="segment__item segment--material__item">
+    <input type="radio" class="segment__input segment--material__input" name="segment-b" (click)="showMemberTab()">
+    <div class="segment__button segment--material__button">Members</div>
+  </div>
+</div>
+
+<div class="body_wrapper">
+
+  <div class="space"></div>
+
+  <ng-template tabHost></ng-template>
+
+  <div class="bottom-bar">
+    <ons-row>
+      <ons-col class="title">
+        <div class="bottom-bar_sub-heading">Total Turnover:</div>
+        <div class="bottom-bar_amount">1036.00 EUR</div>
+      </ons-col>
+      <ons-col>
+        <div class="bottom-bar_sub-heading">Total Affiliate Commission</div>
+        <div class="bottom-bar_amount">1234.00 EUR</div>
+      </ons-col>
+    </ons-row>
+  </div>
+</div>
+</ons-page>

@@ -1,0 +1,178 @@
+<div *ngIf="isUpdate && !bankPaymentOption" style="margin: 20px; text-align: center;">
+  <ons-progress-circular indeterminate></ons-progress-circular>
+</div>
+
+<ng-container *ngIf="(isUpdate && bankPaymentOption) || !isUpdate">
+  <div class="wrapper content-wrapper">
+    <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button>
+          <ons-back-button></ons-back-button>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">
+        Settings
+      </div>
+      <div class="right hidden">
+        <i class="far fa-bell"></i>
+      </div>
+    </ons-toolbar>
+
+    <ons-page class="content settings-wrap">
+      <div class="settings-main-content m-b-chat">
+        <!-- Profile -->
+        <form [formGroup]="form.bankAccount" (ngSubmit)="onSubmit()" id="bank-account-form" novalidate>
+          <div class="settings-main-content__wrap">
+            <div class="list-title">{{ isUpdate ? 'Edit' : 'Link a' }} Bank Account</div>
+            <div class="list-item__subtitle"></div>
+
+          <ng-container *ngIf="form.bankAccount.hasError('formError')">
+            <span *ngFor="let error of form.bankAccount.getError('formError')">
+              {{ error }}
+            </span>
+          </ng-container>
+
+          <ons-row class="p-lr-15">
+            <p class="font-strong">Account Number / IBAN</p>
+            <ons-col width="100%" class="input-wrap m-t-5">
+              <input formControlName="accountNumber" type="text" class="text-input w-100" placeholder="Enter Account Number"/>
+            </ons-col>
+            <div *ngIf="form.bankAccount.get('accountNumber').hasError('formError')" class="invalid-user-feedback">
+              <span *ngFor="let error of form.bankAccount.get('accountNumber').getError('formError')">
+                {{ error }}
+              </span>
+            </div>
+          </ons-row>
+
+          <ons-row class="p-lr-15">
+            <p class="font-strong">Account Name / Company Name</p>
+            <ons-col width="100%" class="input-wrap m-t-5">
+              <input formControlName="accountName" type="text" class="text-input w-100" placeholder="Enter Account Name"/>
+            </ons-col>
+            <div *ngIf="form.bankAccount.get('accountName').hasError('formError')" class="invalid-user-feedback">
+              <span *ngFor="let error of form.bankAccount.get('accountName').getError('formError')">
+                {{ error }}
+              </span>
+            </div>
+          </ons-row>
+
+          <ons-row class="p-lr-15">
+            <p class="font-strong">Bank Code (BIC) / Swift</p>
+            <ons-col width="100%" class="input-wrap m-t-5">
+              <input formControlName="swiftCode" type="text" class="text-input w-100" placeholder="Enter Bank Code"/>
+            </ons-col>
+            <div *ngIf="form.bankAccount.get('swiftCode').hasError('formError')" class="invalid-user-feedback">
+              <span *ngFor="let error of form.bankAccount.get('swiftCode').getError('formError')">
+                {{ error }}
+              </span>
+            </div>
+          </ons-row>
+
+          <ons-row class="p-lr-15">
+            <p class="font-strong">Bank Name</p>
+            <ons-col width="100%" class="input-wrap m-t-5">
+              <input formControlName="bankName" type="text" class="text-input w-100" placeholder="Enter Bank Name"/>
+            </ons-col>
+            <div *ngIf="form.bankAccount.get('bankName').hasError('formError')" class="invalid-user-feedback">
+              <span *ngFor="let error of form.bankAccount.get('bankName').getError('formError')">
+                {{ error }}
+              </span>
+            </div>
+          </ons-row>
+
+          <ons-row class="p-lr-15">
+            <p class="font-strong">Bank Address</p>
+            <ons-col width="100%" class="input-wrap m-t-5 m-b-0">
+              <input formControlName="bankAddress" type="text" class="text-input w-100" placeholder="Enter Bank Address"/>
+            </ons-col>
+            <span class="font-xs m-t-5">Please input complete address: Street, Zipcode, City, Country</span>
+            <div *ngIf="form.bankAccount.get('bankAddress').hasError('formError')" class="invalid-user-feedback">
+              <span *ngFor="let error of form.bankAccount.get('bankAddress').getError('formError')">
+                {{ error }}
+              </span>
+            </div>
+          </ons-row>
+
+          <ons-row class="p-lr-15 m-t-10">
+            <p class="font-strong">Date of Birth</p>
+            <ons-col width="100%" class="input-wrap m-t-5">
+              <i class="fas fa-calendar-alt blue-bg calendar-label white"></i>
+              <ons-input vertical-align="center" formControlName="birthDate" type="date" class="text-input w-90 m-l-30 input-date-mobile" placeholder="mm/dd/yyy"></ons-input>
+            </ons-col>
+            <div *ngIf="form.bankAccount.get('birthDate').hasError('formError')" class="invalid-user-feedback">
+              <span *ngFor="let error of form.bankAccount.get('birthDate').getError('formError')">
+                {{ error }}
+              </span>
+            </div>
+          </ons-row>
+
+          <ons-row class="p-lr-15">
+            <p class="font-strong">Citizenship</p>
+            <ons-col width="100%" class="input-wrap m-t-5">
+              <input formControlName="citizenship" type="text" class="text-input w-100" placeholder="Enter Citizenship"/>
+            </ons-col>
+            <div *ngIf="form.bankAccount.get('citizenship').hasError('formError')" class="invalid-user-feedback">
+              <span *ngFor="let error of form.bankAccount.get('citizenship').getError('formError')">
+                {{ error }}
+              </span>
+            </div>
+          </ons-row>
+
+          <ons-row class="p-lr-15">
+            <p class="font-strong">Address</p>
+            <ons-col width="100%" class="input-wrap m-t-5 m-b-0">
+              <input formControlName="accountAddress" type="text" class="text-input w-100" placeholder="Enter Address"/>
+            </ons-col>
+            <span class="font-xs m-t-5">Please input complete address: Street, Zipcode, City, Country</span>
+            <div *ngIf="form.bankAccount.get('accountAddress').hasError('formError')" class="invalid-user-feedback">
+              <span *ngFor="let error of form.bankAccount.get('accountAddress').getError('formError')">
+                {{ error }}
+              </span>
+            </div>
+          </ons-row>
+
+          <ons-row class="p-lr-15 m-t-5">
+            <ons-col width="80%" class="m-t-10">
+              <p class="font-strong">Use as default</p>
+            </ons-col>
+            <ons-col width="20%" class="right">
+              <label class="switch">
+                <input formControlName="isDefault" type="checkbox" class="switch__input">
+                <div class="switch__toggle">
+                  <div class="switch__handle"></div>
+                </div>
+              </label>
+            </ons-col>
+          </ons-row>
+
+          <ng-container *ngIf="hasSaveBankAccount">
+            <ons-row class="p-lr-15 m-t-5">
+              <ons-col width="80%" class="m-t-10">
+                <p class="font-strong">Save bank account</p>
+              </ons-col>
+              <ons-col width="20%" class="right">
+                <label class="switch">
+                  <input formControlName="saveBankAccount" type="checkbox" class="switch__input">
+                  <div class="switch__toggle">
+                    <div class="switch__handle"></div>
+                  </div>
+                </label>
+              </ons-col>
+            </ons-row>
+          </ng-container>
+
+          <ons-row class="p-lr-15">
+            <ons-col>
+              <div class="right filter-buttons">
+                <ons-button (click)="resetForm()" class="btn-custom button--quiet gray-d button m-r-10">Clear All</ons-button>
+                <ons-button (click)="onSubmit()" type="submit" [ladda]="form.isSubmitting" class="btn-custom gradient-green button left">Save</ons-button>
+              </div>
+            </ons-col>
+          </ons-row>
+
+        </div>
+      </form>
+      </div>
+    </ons-page>
+  </div>
+</ng-container>

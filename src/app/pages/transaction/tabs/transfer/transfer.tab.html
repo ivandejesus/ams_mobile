@@ -1,0 +1,23 @@
+<ons-page>
+  <div class="segment segment--material w-100" style="margin: 0 auto;">
+    <div class="segment__item segment--material__item">
+      <input type="radio" class="segment__input segment--material__input" name="segment-b" (click)="showProductWallet()"
+        checked>
+      <div class="segment__button segment--material__button">Product Wallet</div>
+    </div>
+    <div *ngIf="(user$ | async)?.isVerified" class="segment__item segment--material__item">
+      <input type="radio" class="segment__input segment--material__input" name="segment-b" (click)="showPeerToPeer()">
+      <div class="segment__button segment--material__button">Peer to Peer</div>
+    </div>
+  </div>
+
+  <div class="space"></div>
+
+  <div class="transaction-btn center p-lr-15">
+    <ons-button class="btn-custom gradient-blue white button w-100" (click)="gotoTransactionHistory()">Transaction History</ons-button>
+  </div>
+
+  <div class="dashboard_wrapper white-bg m-b-chat">
+    <ng-template tabHost></ng-template>
+  </div>
+</ons-page>

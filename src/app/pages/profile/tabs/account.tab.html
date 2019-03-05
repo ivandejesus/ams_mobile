@@ -1,0 +1,28 @@
+<div *ngIf="user$ | async as user"  class="profile_body_con">
+  <div *ngIf="user.isAuthenticated">
+    <div class="profile_body_con_inner">
+      <label><span>Customer ID:</span> {{ user.id }}</label>
+    </div>
+    <div class="profile_body_con_inner">
+      <label><span>Country:</span> {{ user.country }}</label>
+    </div>
+    <div class="profile_body_con_inner">
+      <label><span>Date of Birth:</span> {{ user.birthDate }}</label>
+    </div>
+    <div class="profile_body_con_inner">
+      <label><span>Currency:</span> {{ user.currency.code }}</label>
+    </div>
+    <div class="profile_body_con_inner">
+      <label><span>Email:</span> {{ user.email }}</label>
+    </div>
+    <div class="profile_body_con_inner">
+      <label><span>Phone Number:</span> {{ user.phoneNumber }}</label>
+    </div>
+    <div class="profile_body_con_inner">
+      <label><span>Skype:</span> {{ user.skype }}</label>
+    </div>
+    <div class="profile_body_con_inner">
+      <label><span>Join Date:</span> {{ user.joinedDate }}</label>
+    </div>
+  </div>
+</div>

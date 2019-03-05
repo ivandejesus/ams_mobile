@@ -1,0 +1,53 @@
+<div class="wrapper content-wrapper">
+  <ons-toolbar>
+    <div class="left">
+      <ons-toolbar-button>
+        <ons-back-button></ons-back-button>
+      </ons-toolbar-button>
+    </div>
+    <div class="center">
+      Skype Betting
+    </div>
+    <div class="right">
+      <ons-toolbar-button (click)="gotoNotification()">
+        <i class="far fa-bell"></i>
+        <span *ngIf="notificationApi.hasUnread$ | async as hasUnread" class="badge"></span>
+      </ons-toolbar-button>
+    </div>
+  </ons-toolbar>
+
+  <div class="tabbar tabbar--top tabbar--top-border">
+    <label class="tabbar__item tabbar--top-border__item">
+      <input type="radio" name="top-tabbar-b" checked="checked" (click)="showOutstandingBets()">
+      <button class="tabbar__button tabbar--top-border__button">
+        Outstanding Bets
+      </button>
+    </label>
+
+    <label class="tabbar__item tabbar--top-border__item">
+      <input type="radio" name="top-tabbar-b" (click)="showBetHistory()">
+      <button type="button" class="tabbar__button tabbar--top-border__button">
+        Bet History
+      </button>
+    </label>
+
+    <label class="tabbar__item tabbar--top-border__item">
+      <input type="radio" name="top-tabbar-b" (click)="showBetOverview()">
+      <button type="button" class="tabbar__button tabbar--top-border__button">
+        Bet Overview
+      </button>
+    </label>
+  </div>
+  <div class="search-bar m-c-a">
+    <div class="input-group">
+      <div class="input-group-icon"><i class="fas fa-search"></i></div>
+      <div class="input-group-area"><input type="search"></div>
+      <button class="input-group-icon" #button><i class="fas fa-sliders-h"></i></button>
+    </div>
+  </div>
+
+
+  <div class="skype-betting-tabs">
+    <ng-template tabHost></ng-template>
+  </div>
+</div>

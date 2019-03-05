@@ -1,0 +1,234 @@
+/*------Dashboard Wrapper-------------*/
+.dashboard_wrapper {
+  background-image: url(/assets/images/header-bg.svg);
+  padding-top: 50px;
+  background-size: auto;
+  background-repeat: no-repeat;
+}
+.dashboard_wrapper ons-toolbar {
+  background-color: #ffdead00;
+  background-image: none;
+}
+
+/*------Dashboard Content-------------*/
+.content.dashboard_content {
+  margin: 0 15px;
+  padding: 0;
+}
+.dashboard_content img {
+  width: 60%;
+}
+
+/*------Profile Overview-------------*/
+.dashboard-overview h1 {
+  font-size: 30px;
+  font-weight: 800;
+}
+.dashboard-overview span {
+  font-size: 16px;
+  font-weight: 500;
+}
+.dashboard-overview {
+  padding: 0 0 10px;
+}
+
+/*------Custome Card-------------*/
+.card.custom_card {
+  margin: 0 0 10px 0;
+  padding: 0;
+  box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.18);
+  border-radius: 5px;
+}
+.card.custom_card .card__content {
+  padding : 17px 17px;
+}
+.card.custom_card h2 {
+  font-size: 14px;
+  margin: 0;
+  padding: 12px 15px;
+}
+.custom_card label {
+  font-size: 16px;
+  text-align: center;
+}
+.card.custom_card button {
+  width: 100%;
+  border-radius: 5px;
+  margin: 20px 0 0 0;
+  box-shadow: 0px 2px 10px #0000002b;
+}
+
+/*------ home-widgets-------------*/
+.home-widgets ons-list {
+  box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.18);
+  border-radius: 5px;
+  margin: 9px 0;
+  background-image: none;
+}
+.home-widgets i {
+  margin: 0 10px 0 0;
+}
+.home-widgets ons-list-item {
+  padding: 0 15px;
+}
+.home-widgets .expandable-content {
+  padding: 0 10px;
+}
+.home-widgets ons-list-item i {
+  color: #C1272D;
+}
+.expandable-content {
+  border-top: 1px solid #cdcdcd;
+}
+.widget_content {
+  padding: 10px 5px;
+}
+.widget_content i {
+  color: #529F7C !important;
+  margin: 0 !important;
+}
+.widget_content small {
+  color: #529F7C !important;
+}
+.widget_content img {
+  width: 48% !important;
+}
+.home-widgets sup {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+/*------ My Products-------------*/
+.product-balance h1 {
+  font-size: 16px;
+}
+.product-balance p {
+  font-size: 10px !important;
+}
+.product-balance-amount h1 {
+  font-size: 19px;
+  margin: 0;
+  font-weight: bold;
+}
+.ons-widget-btn {
+  background-color: #f5f5f5;
+  padding: 10px 5px;
+}
+.ons-widget-btn i {
+  margin: 0 !important;
+  color: #c8c8cd !important;
+}
+.product-title__border {
+  border-bottom: 1px solid #d1d1d1;
+  padding-bottom: 10px;
+}
+.product-title__wrap {
+  display: flex;
+}
+ons-carousel img {
+  width: 100% !important;
+  padding-left: 2px;
+}
+
+/*------ List Button------------*/
+.list-button {
+  box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.18);
+  border-radius: 5px;
+  margin: 9px 0;
+  background-image: none;
+  width: 100%;
+  background-color: #fff;
+  height: 40px;
+  border: none;
+}
+.list-button img {
+  width: 28px !important;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.list-button {
+  padding: 0 15px;
+  color: #424242;
+  margin: 0;
+  font-size: 15px;
+  outline: 0 !important;
+  margin-bottom: 10px;
+}
+.list-button i {
+  color: #C1272D;
+  font-size: 17px;
+  vertical-align: middle;
+}
+
+/*====================================================
+======================================================
+        TRANSACTION
+======================================================
+====================================================*/
+
+.transaction_history_wrapper {
+  padding-top: 56px;
+  background-size: auto;
+  background-position: center -217px;
+  background-repeat: no-repeat;
+}
+.transaction_history_content {
+  margin: 0 30px;
+  padding: 0;
+}
+.transaction-history_custom-card .card {
+  margin: 0;
+  padding: 15px 15px;
+  box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.18);
+  border-radius: 5px;
+}
+.transaction-history_custom-card .card-title {
+  border-bottom: 1px solid #CDCDCD;
+  padding: 0 0 10px 0;
+}
+.transaction-history_custom-card .card__content {
+  padding: 20px 0 0 10px;
+}
+.transaction-number label {
+  font-size: 16px;
+}
+.transaction-history_custom-card h1 {
+  font-size: 18px;
+  font-weight: bold;
+}
+.wrapper-customer-products {
+  width: 100%;
+  white-space: nowrap;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+.internal {
+  display: inline;
+}
+
+/* Product Carousel */
+.ons-swiper {
+  margin-left: -6px;
+}
+.product-carousel ons-col:first-child .ons-widget-btn {
+  margin-left: -26px;
+}
+.product-carousel ons-col:last-child .ons-widget-btn {
+  margin-left: 11px;
+}
+
+@media only screen and (max-width: 320px) {
+  .custom_card label {
+    font-size: 14px;
+    text-align: center;
+  }
+  .card.custom_card {
+    margin: 0 0 10px 0;
+  }
+  .content.dashboard_content[_ngcontent-c1] {
+      margin: 0 14px;
+      padding: 0;
+  } 
+}

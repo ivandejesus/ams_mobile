@@ -1,0 +1,54 @@
+<div class="callback center">
+  <!-- Success -->
+  <div *ngIf="isSuccess() | async">
+    <div class="callback-content">
+      <div class="ac-logo">
+        <img src="../assets/images/asianconnect-logo.svg">
+      </div>
+      <div class="callback-icon">
+        <img src="../assets/images/trophy-success.svg">
+      </div>
+      <div class="callback-text">
+        <p class="green font-xxl font-strong">Success!</p>
+        <p class="font-lg">Thank you for making a deposit.</p>
+        <p class="font-sm">We are now verifying your deposit. Once we have received your deposit, you will see the additional funds reflected in your account.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Failed -->
+  <div *ngIf="isFailure() | async">
+    <div class="callback-content">
+      <div class="ac-logo">
+        <img src="../assets/images/asianconnect-logo.svg">
+      </div>
+      <div class="callback-icon">
+        <img src="../assets/images/trophy-declined.svg">
+      </div>
+      <div class="callback-text">
+        <p class="red font-xxl font-strong">Failed!</p>
+        <p class="font-sm">Sorry, we were not able to process
+          your request at this time.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cancel -->
+  <div *ngIf="isCancel() | async">
+    <div class="callback-content">
+      <div class="ac-logo">
+        <img src="../assets/images/asianconnect-logo.svg">
+      </div>
+      <div class="callback-icon">
+        <img src="../assets/images/trophy-declined.svg">
+      </div>
+      <div class="callback-text">
+        <p class="red font-xxl font-strong">Failed!</p>
+        <p class="font-sm">Sorry, we were not able to process
+          your request at this time.</p>
+      </div>
+    </div>
+  </div>
+
+  <button (click)="onOk()" class="callback-btn gradient-green button">Ok</button>
+</div>

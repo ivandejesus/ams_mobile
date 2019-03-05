@@ -1,0 +1,39 @@
+<ons-page>
+  <div class="dashboard_wrapper">
+    <div class=" content transaction-content">
+      <div class="transaction-wrapper m-b-chat-transaction">
+        <div class="transaction-btn center">
+          <ons-button class="btn-custom gradient-blue white button w-100" (click)="gotoTransactionHistory()">Transaction History</ons-button>
+        </div>
+
+        <ng-container *ngIf="(user$ | async)?.isVerified; else unverified">
+          <div *ngIf="!customerPaymentOptions" class="m-20 center">
+            <ons-progress-circular indeterminate></ons-progress-circular>
+          </div>
+  
+          <ons-list *ngIf="customerPaymentOptions" modifier="inset">
+            <ng-container *ngFor="let paymentOption of customerPaymentOptions">
+              <!-- Skrill -->
+              <skrill-withdrawal *ngIf="paymentOption.isSkrill" [customerPaymentOption]="paymentOption" [customerProducts]="customerProducts"></skrill-withdrawal>
+              <!-- Neteller -->
+              <neteller-withdrawal *ngIf="paymentOption.isNeteller" [customerPaymentOption]="paymentOption" [customerProducts]="customerProducts"></neteller-withdrawal>
+              <!-- Ecopayz -->
+              <ecopayz-withdrawal *ngIf="paymentOption.isEcopayz" [customerPaymentOption]="paymentOption" [customerProducts]="customerProducts"></ecopayz-withdrawal>
+              <!-- BTC -->
+              <btc-withdrawal *ngIf="paymentOption.isBitcoin" [customerPaymentOption]="paymentOption" [customerProducts]="customerProducts"></btc-withdrawal>
+              <!-- BANK -->
+              <bank-withdrawal *ngIf="paymentOption.isBank" [customerPaymentOption]="paymentOption" [customerProducts]="customerProducts"></bank-withdrawal>
+            </ng-container>
+          </ons-list>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #unverified>
+    <div class="center withdraw-flex-wrapper">
+      <h1 class="font-xxl font-strong m-b-10">Unable to withdraw</h1>
+      <p>Please contact our customer service team to have your account verified.</p>
+    </div>
+  </ng-template>
+</ons-page>

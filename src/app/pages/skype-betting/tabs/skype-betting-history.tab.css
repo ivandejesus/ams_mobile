@@ -1,0 +1,66 @@
+.skype-betting-history-wrapper {
+  padding: 0 15px;
+}
+.skype-betting-history-wrapper ons-list {
+  background-image: none;
+}
+.skype-betting-history-wrapper .expandable-content p {
+  font-size: 12px;
+  line-height: 17px;
+}
+.skype-betting-history-wrapper .expandable-content {
+  padding: 0;
+}
+.betting-history-list {
+  padding-left: 10px;
+}
+.daily-list .expandable-content {
+  padding-left: 10px !important;
+  padding-bottom: 10px !important;
+  padding-right: 10px;
+}
+.hr-border {
+  margin: 0 10px 10px 0;
+  border-bottom: 1px solid #cfcccc !important;
+  border: none;
+}
+.skype-betting-history-wrapper ons-list-item .expandable-content,
+.skype-betting-history-wrapper .daily-list-view ons-list-item .expandable-content {
+  padding: 10px !important;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.skype-betting-history-wrapper ons-col {
+  font-size: 12px;
+  /* white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
+}
+.skype-betting-history-wrapper ons-list {
+  margin: 15px;
+  overflow: auto !important;
+  display: initial;
+  border: none;
+}
+.skype-betting-history-wrapper ons-list-item {
+  padding: 0;
+  border-top: 4px solid #C1272D !important;
+  border-radius: 5px;
+  box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.18);
+  margin-bottom: 10px;
+  background-image: none;
+}
+.heading-toolbar {
+  margin-bottom: 10px;
+}
+.heading-toolbar p {
+  font-size: 16px;
+}
+.expandable-content ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.expandable-content ul li p {
+  color: #fff;
+}

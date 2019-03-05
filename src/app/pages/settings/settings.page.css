@@ -1,0 +1,42 @@
+.avatar-wrap button {
+  display: inline;
+  border: 1px solid;
+  padding: 5px;
+  margin-right: 10px;
+  border-radius: 5px;
+  background: #fff;
+  outline: none;
+}
+.avatar-wrap button.active {
+  border: 2px solid #c1355e;
+}
+.list-item__right {
+  display: flex !important;
+}
+.payment-wrap {
+  padding-top: 0;
+  padding-bottom: 5px;
+}
+.payment-wrap .list-item {
+  padding-left: 5px;
+}
+.payment-wrap .list-item__center {
+  padding: 0 !important;
+}
+.payment-wrap .list-item__right {
+  padding-right: 5px;
+}
+.payment-wrap .list-item__left {
+  padding: 0;
+}
+.payment-wrap > ul li {
+  border-bottom: 1px solid #cacacf;
+  margin: 0;
+}
+.payment-wrap > ul li:last-child, .payment-wrap > ul li:first-child {
+  border: none;
+}
+.payment-wrap .btn-outline i {
+  font-size: 16px;
+  vertical-align: middle;
+}

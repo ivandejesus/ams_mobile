@@ -1,0 +1,29 @@
+.callback {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.ac-logo {
+  width: 70%;
+  margin: 0 auto;
+}
+.callback-content {
+  padding: 0 40px;
+}
+.callback-content > div {
+  margin-bottom: 40px;
+}
+.callback-icon {
+  width: 60%;
+  margin: 0 auto;
+}
+.callback-text p {
+  height: 30px;
+}
+.callback-text p:last-child {
+  line-height: 15px;
+}
+.callback-btn {
+  padding: 0px 30px !important;
+  font-size: 14px !important;
+}

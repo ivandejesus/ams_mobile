@@ -1,0 +1,204 @@
+/* Blinker */
+.blinking {
+  animation: blinker 1s linear infinite;
+}
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+.btc-rate {
+  font-weight: bold;
+  font-size: 17px;
+  color: #000 !important;
+}
+.pending-gateway p {
+  text-shadow: none !important;
+  color: #414141 !important;
+  font-size: 13px !important;
+}
+.pending-gateway {
+  padding: 0 10px 15px 10px;
+}
+.pending-gateway h2 {
+  color: #414141 !important;
+  text-shadow: none !important;
+  font-size: 15px !important;
+  font-weight: bold;
+}
+
+.bitcoin-icon {
+  width: 43%;
+}
+.bitcoin-status {
+  font-size: 16px !important;
+}
+.requested-cls h1 {
+  font-size: 24px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+.requested-cls small {
+  font-size: 12px;
+  color: #aaaaaa;
+}
+.pending-cls h1 {
+  font-size: 24px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+.pending-cls small {
+  font-size: 12px;
+  color: #aaaaaa;
+}
+.product-details {
+  padding: 10px;
+  text-align: left;
+  margin-bottom: 8px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.19);
+  border-left: 3px solid #c1272d;
+}
+.product-details h2 {
+  font-size: 16px;
+  font-weight: 300;
+}
+.product-details h3 {
+  font-size: 14px;
+}
+.rate-note {
+  font-style: italic;
+  font-weight: bold;
+}
+.gateway-form .fa-bitcoin {
+  background: -webkit-linear-gradient(left, #F7931A, #F7A43F);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 30px;
+}
+.gateway-form .fa-file-invoice-dollar, .gateway-form .fa-receipt {
+  background: -webkit-linear-gradient(left, #529F7C, #8BC5A2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 30px;
+}
+.gateway-form .fa-lock {
+  background: -webkit-linear-gradient(left, #424242, #808080);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 30px;
+}
+.requested-cls p {
+  font-size: 24px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+.requested-gateway h1 {
+  color: #000 !important;
+  text-shadow: none !important;
+  font-size: 17px;
+}
+.requested-gateway p {
+  font-size: 13px !important;
+  text-shadow: none !important;
+  color: #000 !important;
+}  
+.bitcoin-status-rate {
+  font-size: 20px !important;
+  font-style: italic;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 320px) {
+  .gateway-wrap h1{
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #0000006e;
+    line-height: 23px;
+    font-size: 19px;
+  }
+  .info-content ul li {
+    font-size: 10px;
+  }   
+  .pending-gateway {
+    padding: 0 10px 15px 10px;
+  }    
+  .pending-gateway h2 {
+    font-size: 13px !important;
+  }  
+  .pending-gateway p {
+    font-size: 11px !important;
+    font-weight: 500;
+  }        
+  .requested-cls small {
+    font-size: 10px;
+    color: #aaaaaa;
+  }  
+  .bitcoin-status {
+    font-size: 13px !important;
+  }  
+  .gateway-form .fa-bitcoin {
+    background: -webkit-linear-gradient(left, #F7931A, #F7A43F);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 23px;
+  }  
+  .gateway-form .fa-receipt {
+    background: -webkit-linear-gradient(left, #529F7C, #8BC5A2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 21px;
+  }  
+  .requested-gateway h1 {
+    color: #000 !important;
+    text-shadow: none !important;
+  }  
+  .requested-gateway p {
+    font-size: 13px !important;
+    text-shadow: none !important;
+    color: #000 !important;
+  }  
+  .requested-gateway input {
+    border: 1px solid #CDCDCD;
+    border-radius: 5px;
+    width: 100%;
+    padding: 0 7px;
+    height: 27px !important;
+    font-size: 11px !important;
+  }  
+  .requested-gateway .copy-label {
+    position: absolute;
+    height: 13px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 6px;
+    text-align: center;
+    color: #fff;
+    width: 55px;
+    padding: 6px 0;
+    font-size: 14px;
+    border: 1px solid #CDCDCD;
+    border-right: none;
+    right: 10px;
+  }  
+  .requested-gateway h1 {
+    color: #000 !important;
+    text-shadow: none !important;
+    font-size: 14px;
+  }  
+  .bitcoin-status-rate {
+    font-size: 20px !important;
+    font-style: italic;
+    font-weight: bold;
+  }  
+  .gateway-form .fa-lock {
+      background: -webkit-linear-gradient(left, #424242, #808080);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 22px;
+  }  
+  .gateway-form .fa-file-invoice-dollar {
+      background: -webkit-linear-gradient(left, #529F7C, #8BC5A2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 22px;
+  }
+}

@@ -1,0 +1,163 @@
+<div class="wrapper content-wrapper">
+  <div class="gradient-red">
+    <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button>
+          <ons-back-button></ons-back-button>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">
+        Support Tickets
+      </div>
+      <div class="right">
+        <ons-toolbar-button (click)="gotoNotification()">
+          <i class="far fa-bell"></i>
+          <span *ngIf="notificationApi.hasUnread$ | async as hasUnread" class="badge"></span>
+        </ons-toolbar-button>
+      </div>
+    </ons-toolbar>
+    
+    <div class="search-bar m-c-a p-b-10">
+      <div class="input-group">
+        <div class="input-group-icon"><i class="fas fa-search"></i></div>
+        <div class="input-group-area"><input type="search"></div>
+        <!-- <button class="input-group-icon" (click)="popover.show(button)" #button><i class="fas fa-sliders-h"></i></button> -->
+      </div>
+    </div>
+  </div>
+
+  <ons-popover direction="up down" cancelable #popover class="filter-popover">
+    <div class="filter-popover-body">
+      <ons-row>
+        <ons-col width="50%" class="wrap-datepicker m-r-5">
+          <i class="fas fa-calendar gradient-icon-blue"></i>
+          <ons-input type="date" class="w-100" placeholder="mm/dd/yyy"></ons-input>
+        </ons-col>
+        <ons-col width="48%" class="wrap-datepicker">
+          <i class="fas fa-calendar gradient-icon-blue"></i>
+          <ons-input type="date" class="w-100" placeholder="mm/dd/yyy"></ons-input>
+        </ons-col>
+      </ons-row>
+      <ons-row>
+        <ons-col width="100%">
+          <ons-select class="w-100">
+            <option>All Status</option>
+            <option>Open</option>
+            <option>Pending</option>
+            <option>Resolved</option>
+            <option>Closed</option>
+          </ons-select>
+        </ons-col>
+      </ons-row>
+      <div class="right m-t-10">
+        <ons-button class="btn-custom button--quiet gray-d button m-r-10">Reset Filters</ons-button>
+        <ons-button class="btn-custom gradient-yellow button">Apply</ons-button>
+      </div>
+    </div>
+  </ons-popover>
+  
+  <!--Tickets Content-->
+  <ons-page class="content ticket-wrap">
+    <div class="m-b-chat">
+      <ons-list modifier="inset" class="m-b-10 m-t-10 status">
+        <ons-list-item expandable class="gradient-red white expanded">
+          <ons-row class="p-lr-15 m-b-10" *ngIf="user$ | async as user">
+            <ons-col width="90%" class="title font-md font-strong left"><i class="fas fa-comments chat-icon-cus m-r-5"></i>{{ user.displayName }}</ons-col>
+            <ons-col width="10%" class="right font-sm m-t-5">{{ user.id }}</ons-col>
+          </ons-row>
+          <ons-row *ngIf="zendeskTicketList$ | async as ticketlist" class="expandable-content status black white-bg center p-lr-15">
+            <ons-col width="25%">
+              <h1 class="font-md font-strong">{{ ticketlist.open }}</h1>
+              <span class="font-sm"><i class="fas fa-circle ticket-open font-xs m-r-3"></i> Open</span>
+            </ons-col>
+            <ons-col width="25%">
+              <h1 class="font-md font-strong">{{ ticketlist.pending }}</h1>
+              <span class="font-sm"><i class="fas fa-circle ticket-pending font-xs m-r-3"></i> Pending</span>
+            </ons-col>
+            <ons-col width="25%">
+              <h1 class="font-md font-strong">{{ ticketlist.solved }}</h1>
+              <span class="font-sm"><i class="fas fa-circle ticket-resolved font-xs m-r-3"></i> Resolved</span>
+            </ons-col>
+            <ons-col width="25%">
+              <h1 class="font-md font-strong">{{ ticketlist.closed }}</h1>
+              <span class="font-sm"><i class="fas fa-circle ticket-closed font-xs m-r-3"></i> Closed</span>
+            </ons-col>
+          </ons-row>
+        </ons-list-item>
+      </ons-list>
+
+      <div class="p-lr-15 m-b-10 center">
+        <span class="ticket-divider-label font-sm">My Tickets</span>
+        <div class="ticket-divider gray-bg"></div>
+      </div>
+
+      <div *ngIf="zendeskTicketList$ | async as ticketlist else spinner" id="conversation">
+        <div *ngIf="ticketlist.items.length > 0 else noResult">
+          <ons-list *ngFor="let list of ticketlist.items.reverse()" modifier="inset" class="m-b-10">
+            <ons-list-item expandable *ngIf="user$ | async as user" (click)="openTicketDetails(list, $event)">
+
+              <ons-row class="p-lr-15">
+                <ons-col width="10%" class="font-sm left"><i [ticketStatus]="list.status" class="fas fa-circle"></i></ons-col>
+                <ons-col width="70%" class="font-sm left">{{ list.subject }}</ons-col>
+                <ons-col width="20%" class="right font-sm">{{ list.createdAt }}</ons-col>
+              </ons-row>
+
+              <div class="expandable-content font-sm ticket-main-wrap">
+                  <div *ngIf="zendeskTicketCommentList">
+                    <!-- Conversation Wrap -->
+                    <div class="convo-wrap">
+                      <div *ngFor="let comments of zendeskTicketCommentList" [ngClass]="comments.ticketContent">
+                        <div [ngClass]="user.zendeskId == comments.authorId ? 'client' : 'support'" *ngIf="list.id == comments.ticketId" [innerHTML]="comments.htmlBody">
+                          <!-- html content based on zendesk api response -->
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Conversation -->
+                  </div>                  
+                </div>
+
+            </ons-list-item>
+          </ons-list>
+        </div>
+      </div>
+
+      <!-- <ng-template #loadingOrError>
+        <div *ngIf="loadingError$ | async; else spinner" class="no-result center font-lg">
+          <span>Error loading of tickets. Please try again later.</span>
+        </div>
+        <ng-template #spinner>
+          <div class="m-20 center m-t-20">
+            <ons-icon icon="fa-spinner" size="26px" spin></ons-icon>
+          </div>
+        </ng-template>
+      </ng-template> -->
+
+
+      <ng-template #spinner>
+        <div class="m-20 center m-t-20">
+          <ons-icon icon="fa-spinner" size="26px" spin></ons-icon>
+        </div>
+      </ng-template>
+
+      <ng-template #noResult>
+        <div class="no-result center font-lg">
+          <span>No Result Found!</span>
+        </div>
+      </ng-template>
+
+    </div>
+
+    <ons-modal direction="up">
+      <div class="loading-modal">
+        <p>
+          <ons-icon icon="md-spinner" size="28px" spin></ons-icon> Loading...
+        </p>
+      </div>
+    </ons-modal>
+
+  </ons-page>
+  <!--End Tickets Content-->
+
+  
+  
+</div>

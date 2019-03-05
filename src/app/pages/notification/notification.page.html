@@ -1,0 +1,28 @@
+<div class="wrapper content-wrapper">
+  <ons-toolbar>
+    <div class="left">
+      <ons-toolbar-button>
+        <ons-back-button></ons-back-button>
+      </ons-toolbar-button>
+    </div>
+    <div class="center">
+      Notifications
+    </div>
+    <div class="right hidden">
+      <i class="far fa-bell" style="font-size:17px"></i>
+    </div>
+  </ons-toolbar>
+
+  <ons-page class="content notification-wrap" *ngIf="notificationApi.notifications$ | async as notifications">
+    <div class="m-b-chat">
+      <ul class="list notif-list">
+        <li class="list-item m-b-10" *ngFor="let notification of notifications" [notificationStatus]="notification.message">
+          <div class="notification-list">
+            <p><span class="notif-bold-italic">{{ notification.message }}</span></p>
+            <p><span class="notif-date-time"> {{ notification.dateTime }}</span></p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </ons-page>
+</div>

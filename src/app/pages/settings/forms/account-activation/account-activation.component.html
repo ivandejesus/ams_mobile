@@ -1,0 +1,123 @@
+<div class="wrapper content-wrapper">
+  <ons-toolbar>
+    <div class="left">
+      <ons-toolbar-button>
+        <ons-back-button></ons-back-button>
+      </ons-toolbar-button>
+    </div>
+    <div class="center">
+      Settings
+    </div>
+    <div class="right hidden">
+      <ons-toolbar-button>
+        <i class="far fa-bell"></i>
+      </ons-toolbar-button>
+    </div>
+  </ons-toolbar>
+  
+  <ons-page class="content settings-wrap">
+    <div class="settings-main-content account-activation">
+      <!-- Account Activation -->
+      <div class="settings-main-content__wrap">
+        <form [formGroup]="form.activation" (ngSubmit)="onSubmit()" id="account-activation-form" novalidate>
+          <div class="list-title">Account Activation</div>
+          <div class="list-item__subtitle">
+            <hr>
+          </div>
+
+          <ng-container *ngIf="form.activation.hasError('formError')">
+            <span *ngFor="let error of form.activation.getError('formError')">
+              {{ error }}
+            </span>
+          </ng-container>
+
+          <ons-row class="p-lr-15">
+            <div class="activation-title m-b-10">
+              <h1>Username</h1>
+              <p>Must contain letters, numbers, and underscore only</p>
+            </div>
+            <ons-col width="100%" class="input-wrap">
+              <i class="fas fa-user"></i>
+              <input formControlName="newUsername" type="text" class="text-input" placeholder="Username"/>
+            </ons-col>
+            <ul *ngIf="form.activation.get('newUsername').hasError('formError')" class="invalid-user-feedback red-l font-sm">
+              <li *ngFor="let error of form.activation.get('newUsername').getError('formError')">
+                {{ error }}
+              </li>
+            </ul>            
+
+            <ons-col width="100%" class="input-wrap m-t-10">
+              <i class="fas fa-check-square"></i>
+              <input formControlName="confirmUsername" type="text" class="text-input" placeholder="Confirm username"/>
+            </ons-col>
+            <ul *ngIf="form.activation.get('confirmUsername').hasError('formError')" class="invalid-user-feedback red-l font-sm">
+              <li *ngFor="let error of form.activation.get('confirmUsername').getError('formError')">
+                {{ error }}
+              </li>
+            </ul>
+          </ons-row>
+
+          <ons-row class="p-lr-15 m-t-10">
+            <div class="activation-title m-b-10">
+              <h1>Password</h1>
+              <p>Must be at least 8 characters, contains 2 letters,  2 digits, and 2 special characters</p>
+            </div>
+            <ons-col width="100%" class="input-wrap">
+              <i class="fas fa-lock"></i>
+              <input formControlName="newPassword" type="password" class="text-input" placeholder="Password"/>
+            </ons-col>
+            <ul *ngIf="form.activation.get('newPassword').hasError('formError')" class="invalid-user-feedback red-l font-sm">
+              <li *ngFor="let error of form.activation.get('newPassword').getError('formError')">
+                {{ error }}
+              </li>
+            </ul>
+
+            <ons-col width="100%" class="input-wrap m-t-10">
+              <i class="fas fa-check-square"></i>
+              <input formControlName="confirmPassword" type="password" class="text-input" placeholder="Confirm password"/>
+            </ons-col>
+            <ul *ngIf="form.activation.get('confirmPassword').hasError('formError')" class="invalid-user-feedback red-l font-sm">
+              <li *ngFor="let error of form.activation.get('confirmPassword').getError('formError')">
+                {{ error }}
+              </li>
+            </ul>
+          </ons-row>
+
+          <ons-row class="p-lr-15 m-t-10">
+            <div class="activation-title m-b-10">
+              <h1>Transaction Password</h1>
+              <p>Must be alphanumeric, min. 6 chars, and should have at least 1 capital letter</p>
+            </div>
+            <ons-col width="100%" class="input-wrap">
+              <i class="fas fa-lock"></i>
+              <input formControlName="newTransactionPassword" type="password" class="text-input" placeholder="Transaction password"/>
+            </ons-col>
+            <ul *ngIf="form.activation.get('newTransactionPassword').hasError('formError')" class="invalid-user-feedback red-l font-sm">
+              <li *ngFor="let error of form.activation.get('newTransactionPassword').getError('formError')">
+                {{ error }}
+              </li>
+            </ul>
+
+            <ons-col width="100%" class="input-wrap m-t-10">
+              <i class="fas fa-check-square"></i>
+              <input formControlName="confirmTransactionPassword" type="password" class="text-input" placeholder="Confirm transaction password"/>
+            </ons-col>
+            <ul *ngIf="form.activation.get('confirmTransactionPassword').hasError('formError')" class="invalid-user-feedback red-l font-sm">
+              <li *ngFor="let error of form.activation.get('confirmTransactionPassword').getError('formError')">
+                {{ error }}
+              </li>
+            </ul>
+          </ons-row>
+
+          <ons-row class="p-lr-15 p-b-20">
+            <ons-col>
+              <div class="right btn-request">
+                <button type="submit" class="gradient-green left button" [ladda]="form.isSubmitting">Activate Account</button>
+              </div>
+            </ons-col>
+          </ons-row>
+        </form>
+      </div>
+    </div>
+  </ons-page>
+</div>

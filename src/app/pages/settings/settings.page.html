@@ -1,0 +1,138 @@
+
+<div class="wrapper content-wrapper">
+  <ons-toolbar>
+    <div class="left">
+      <ons-toolbar-button>
+        <ons-back-button></ons-back-button>
+      </ons-toolbar-button>
+    </div>
+    <div class="center">
+      Settings
+    </div>
+    <div class="right hidden">
+      <ons-toolbar-button>
+        <i class="far fa-bell"></i>
+      </ons-toolbar-button>
+    </div>
+  </ons-toolbar>
+
+  <ons-page class="content settings-wrap" *ngIf="user$ | async as user">
+    <div class="settings-main-content m-b-chat">
+      <!-- Profile -->
+      <div class="settings-main-content__wrap">
+        <div class="list-title">Profile</div>
+        <div class="list-item__subtitle">
+          Verify your account status and change your avatar
+        </div> 
+        <ul class="list settings-list-wrapper">
+          <li class="list-item">
+            <div class="list-item__center">
+              <p>
+                <i class="fas fa-user-shield"></i>
+                Account Status:
+                <span class="verify">{{ user.isVerified ? 'Verified' : 'Not Verified' }}</span>
+              </p>
+            </div>
+            <div class="list-item__right" (click)="gotoAccountActivation()" *ngIf="!user.isActivated">
+              <span class="activate">Activate Now</span>
+            </div>
+          </li>
+          <!-- <ons-list-item expandable>
+            <i class="fas fa-user-circle black"></i> Avatar
+            <div class="expandable-content avatar-wrap">
+              <p class="m-b-10">Select your desired avatar that will be shown on your bio:</p>
+              <button class="active"><img class="list-item__thumbnail" src="../assets/images/avatar-man1.svg"></button>
+              <button><img class="list-item__thumbnail" src="../assets/images/avatar-man2.svg"></button>
+              <button><img class="list-item__thumbnail" src="../assets/images/avatar-man3.svg"></button>
+              <button><img class="list-item__thumbnail" src="../assets/images/avatar-woman1.svg"></button>
+              <button><img class="list-item__thumbnail" src="../assets/images/avatar-woman2.svg"></button>
+            </div>
+          </ons-list-item> -->
+        </ul>
+      </div>
+
+      <!-- Security -->
+      <div class="settings-main-content__wrap">
+        <div class="list-title">Security</div>
+        <div class="list-item__subtitle">
+          Update your Username, Account and Transaction Password
+        </div> 
+        <ul class="list settings-list-wrapper">
+          <li class="list-item list-item--chevron" (click)="gotoAccountUsername()">
+            <div class="list-item__center">
+              <p>
+                <i class="fas fa-user"></i>
+                Account Username
+              </p>
+            </div>
+          </li>
+          <li class="list-item list-item--chevron" (click)="gotoAccountPassword()">
+            <div class="list-item__center">
+              <p>
+                <i class="fas fa-lock"></i>
+                Account Password
+              </p>
+            </div>
+          </li>
+          <li class="list-item list-item--chevron" (click)="gotoTransactionPassword()">
+            <div class="list-item__center">
+              <p>
+                <i class="fas fa-lock"></i>
+                Transaction Password
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Payment Options -->
+      <div class="overlay-text">
+        <p class="font-xxl">Temporarily Unavailable</p>
+        <p class="font-sm">For inquiries, please contact Customer Support.</p>
+        <div class="settings-main-content__wrap">
+          <div class="overlay-cover"></div>
+          <div class="list-title">Payment Options</div>
+          <div class="list-item__subtitle">
+            Manage your payment accounts
+          </div>
+          <div class="list settings-list-wrapper">
+            <ons-list-item expandable>
+              <p><i class="fas fa-university"></i> Bank Accounts</p>
+              <div class="expandable-content payment-wrap">
+                <ul class="list settings-list-wrapper">
+                  <li class="list-item" (click)="gotoBankAccount()">
+                    <div class="list-item__left">
+                      <p class="btn-outline">
+                        <i class="fas fa-plus"></i>
+                        Link a bank account
+                      </p>
+                    </div>
+                  </li>
+                  <li class="list-item" *ngFor="let customerBankPaymentOption of customerBankPaymentOptions">
+                    <div class="list-item__center">
+                      <i class="fas fa-credit-card"></i>
+                      <p>
+                        {{ customerBankPaymentOption.bankName }}<br>
+                        <span class="account-no">
+                          {{ customerBankPaymentOption.accountId | accountNumber }}
+                        </span>
+                      </p>
+                    </div>
+                    <div class="list-item__right bank-action">
+                      <span class="edit-bank" (click)="gotoBankAccount(customerBankPaymentOption.id)">
+                        <i class="fas fa-edit blue"></i>
+                      </span>
+                      <span class="delete-bank m-l-10" (click)="deleteBank(customerBankPaymentOption.id)">
+                        <i class="fas fa-trash red"></i>
+                      </span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </ons-list-item>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ons-page>
+</div>
